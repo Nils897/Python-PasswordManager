@@ -1,4 +1,4 @@
-import curses, re, sys, json, hashlib, os, requests
+import re, hashlib, requests
 
 def isPasswordCorrect(password):
 
