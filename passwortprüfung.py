@@ -1,18 +1,23 @@
 import re, hashlib, requests
 
 def isPasswordCorrect(password):
-
     if len(password) < 8:
+        print("pw too short")
         return False
     if not re.search(r'\d', password):
+        print("idk")
         return False
     if not re.search(r'[A-Z]', password):
+        print("pw needs uppercase")
         return False
     if not re.search(r'[a-z]', password):
+        print("pw needs lowercase")
         return False
     if not re.search(r'[_!@#$%^&*(),.?":{}|<>-]', password):
+        print("pw needs sonderzeichen")
         return False
     if isPasswordPwned(password):
+        print("password is pwned")
         return False
     return True
 
@@ -41,3 +46,7 @@ def requestAPI(prefix_hashed_password):
     except requests.RequestException as e:
         print(f"Error contacting API: {e}")
         return None
+    
+
+print(isPasswordCorrect("Q2z!R7y%W4t"))
+print(isPasswordCorrect("Password!23"))
