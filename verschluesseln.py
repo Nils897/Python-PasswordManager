@@ -16,7 +16,7 @@ from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
-def encrypt_data(data, key, iv):
+def encrypt_data(data: bytes, key: bytes, iv: bytes) -> bytes:
     """
     Encrypts the given data using AES encryption in CFB mode with the specified key and
     initialization vector (IV).
@@ -33,7 +33,7 @@ def encrypt_data(data, key, iv):
     encrypted_data = encryptor.update(padded_data) + encryptor.finalize()
     return encrypted_data
 
-def decrypt_data(encrypted_data, key, iv):
+def decrypt_data(encrypted_data: bytes, key: bytes, iv: bytes) -> bytes:
     """
     Decrypts the given encrypted data using AES decryption in CFB mode with the specified key
     and initialization vector (IV).
@@ -50,7 +50,7 @@ def decrypt_data(encrypted_data, key, iv):
     data = unpadder.update(padded_data) + unpadder.finalize()
     return data
 
-def save_encrypted_dict_to_file(data_dict, output_filename, password):
+def save_encrypted_dict_to_file(data_dict: dict, output_filename: str, password: str) -> None:
     """
     Encrypts a dictionary and saves it to a file using a password-derived key.
 
@@ -77,7 +77,7 @@ def save_encrypted_dict_to_file(data_dict, output_filename, password):
     with open(output_filename, 'wb') as file:
         file.write(salt + iv + encrypted_data)
 
-def load_encrypted_dict_from_file(input_filename, password):
+def load_encrypted_dict_from_file(input_filename: str, password: str) -> dict:
     """
     Loads and decrypts an encrypted dictionary from a file using a password-derived key.
 
