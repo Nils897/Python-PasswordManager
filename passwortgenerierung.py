@@ -72,7 +72,7 @@ def generate_password(criteria):
 
 
 # Beispielverwendung:
-criteria = {
+options = {
     'length': 16,
     'use_uppercase': True,
     'use_lowercase': True,
@@ -81,4 +81,4 @@ criteria = {
     'exclude_chars': 'bums',
     'enforce_pattern': 'ULDS'
 }
-print(generate_password(criteria))
+print(generate_password(options))
