@@ -18,7 +18,8 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 def encrypt_data(data, key, iv):
     """
-    Encrypts the given data using AES encryption in CFB mode with the specified key and initialization vector (IV).
+    Encrypts the given data using AES encryption in CFB mode with the specified key and
+    initialization vector (IV).
 
     :param data: The plaintext data to be encrypted (in bytes).
     :param key: The encryption key (in bytes).
@@ -34,7 +35,8 @@ def encrypt_data(data, key, iv):
 
 def decrypt_data(encrypted_data, key, iv):
     """
-    Decrypts the given encrypted data using AES decryption in CFB mode with the specified key and initialization vector (IV).
+    Decrypts the given encrypted data using AES decryption in CFB mode with the specified key
+    and initialization vector (IV).
 
     :param encrypted_data: The data to be decrypted (in bytes).
     :param key: The decryption key (in bytes).
@@ -105,11 +107,11 @@ def load_encrypted_dict_from_file(input_filename, password):
 # Beispielhafte Verwendung:
 
 # Speichern eines Dictionaries als verschlüsselte Datei
-data_dict = {'name': 'John Doe', 'age': 30, 'city': 'New York'}
-output_filename = 'encrypted_data.json'
-password = 'strong_password123'
-save_encrypted_dict_to_file(data_dict, output_filename, password)
+info_dict = {'name': 'John Doe', 'age': 30, 'city': 'New York'}
+OUTPUT_FILENAME = 'encrypted_data.json'
+PASSWORD = 'strong_password123'
+save_encrypted_dict_to_file(info_dict, OUTPUT_FILENAME, PASSWORD)
 
 # Laden eines Dictionaries aus einer verschlüsselten Datei
-loaded_dict = load_encrypted_dict_from_file(output_filename, password)
+loaded_dict = load_encrypted_dict_from_file(OUTPUT_FILENAME, PASSWORD)
 print(loaded_dict)
