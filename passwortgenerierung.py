@@ -1,7 +1,6 @@
 """
 This module provides a function for generating secure, random passwords.
-The passwords can be generated based on various criteria such as length, 
-uppercase/lowercase usage, digits, special characters, and a custom pattern.
+The passwords can be generated based on various criteria such as length, uppercase/lowercase usage, digits, special characters, and a custom pattern.
 """
 
 import random
@@ -17,8 +16,7 @@ def generate_password(criteria: dict) -> str:
     :param use_digits: Ob Zahlen verwendet werden sollen.
     :param use_special: Ob Sonderzeichen verwendet werden sollen.
     :param exclude_chars: Zeichen, die ausgeschlossen werden sollen.
-    :param enforce_pattern: Ein Muster, das im Passwort erzwungen werden soll
-                            (z.B. "ULDS" für 1 Uppercase, 1 Lowercase, 1 Digit, 1 Special).
+    :param enforce_pattern: Ein Muster, das im Passwort erzwungen werden soll (z.B. "ULDS" für 1 Uppercase, 1 Lowercase, 1 Digit, 1 Special).
     :return: Das generierte Passwort.
     """
     length = criteria['length']
@@ -47,8 +45,7 @@ def generate_password(criteria: dict) -> str:
     # Generierung des Passworts
     if enforce_pattern:
         password = []
-        pattern_dict = {'U': string.ascii_uppercase, 'L': string.ascii_lowercase,
-                         'D': string.digits, 'S': string.punctuation}
+        pattern_dict = {'U': string.ascii_uppercase, 'L': string.ascii_lowercase, 'D': string.digits, 'S': string.punctuation}
         # Für jedes Musterzeichen das entsprechende Zeichen hinzufügen
         for char in enforce_pattern:
             if char in pattern_dict:
@@ -64,8 +61,7 @@ def generate_password(criteria: dict) -> str:
         password += random.choices(characters, k=remaining_length)
         # Passwort zufällig mischen
         random.shuffle(password)
-        #muss man sich dann überlegen ob man das muster so haben will wie man es eingibt
-        #oder das das nur dafür da ist das auf jeden fall davon welche vorkommen.
+        #muss man sich dann überlegen ob man das muster so haben will wie man es eingibt oder das das nur dafür da ist das auf jeden fall davon welche vorkommen.
         return ''.join(password)
     # Wenn kein Muster erzwungen wird, ein einfaches zufälliges Passwort generieren
     return ''.join(random.choice(characters) for _ in range(length))
