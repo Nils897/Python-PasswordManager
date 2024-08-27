@@ -1,11 +1,12 @@
 """
 This module provides a function which validates a password
 """
+from typing import Any
 import re
 import hashlib
 import requests
 
-def is_password_correct(password):
+def is_password_correct(password: str) -> bool:
     """
     Validates the given password against specific security criteria.
 
@@ -42,7 +43,7 @@ def is_password_correct(password):
     if not is_password_secure:
         return False
     return True
-def is_password_pwned(password):
+def is_password_pwned(password: str) -> bool:
     """
     Checks if the given password has been compromised in a known data breach.
 
@@ -61,7 +62,7 @@ def is_password_pwned(password):
         if returned_suffix == suffix_hashed_password:
             return True
     return False
-def request_api(prefix_hashed_password):
+def request_api(prefix_hashed_password: str) -> Any:
     """
     Requests data from the 'Have I Been Pwned' API for passwords 
     that match the given SHA-1 hash prefix.
