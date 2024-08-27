@@ -1,3 +1,9 @@
+"""
+This module provides a function for generating secure, random passwords.
+The passwords can be generated based on various criteria such as length, 
+uppercase/lowercase usage, digits, special characters, and a custom pattern.
+"""
+
 import random
 import string
 
@@ -52,8 +58,8 @@ def generate_password(length, use_uppercase, use_lowercase, use_digits, use_spec
         remaining_length = length - len(password)
         password += random.choices(characters, k=remaining_length)
         # Passwort zufällig mischen
-        random.shuffle(password) 
-        #muss man sich dann überlegen ob man das muster so haben will wie man es eingibt 
+        random.shuffle(password)
+        #muss man sich dann überlegen ob man das muster so haben will wie man es eingibt
         #oder das das nur dafür da ist das auf jeden fall davon welche vorkommen.
         return ''.join(password)
     # Wenn kein Muster erzwungen wird, ein einfaches zufälliges Passwort generieren
