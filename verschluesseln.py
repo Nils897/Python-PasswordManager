@@ -26,10 +26,10 @@ def encrypt_data(data: bytes, key: bytes, iv: bytes) -> bytes:
     :param iv: The initialization vector (IV) for the cipher (in bytes).
     :return: The encrypted data (in bytes).
     """
-    padder = padding.PKCS7(128).padder()
+    padder = padding.PKCS7(128).padder() # type: ignore
     padded_data = padder.update(data) + padder.finalize()
-    cipher = Cipher(algorithms.AES(key), modes.CFB(iv), backend=default_backend())
-    encryptor = cipher.encryptor()
+    cipher = Cipher(algorithms.AES(key), modes.CFB(iv), backend=default_backend()) # type: ignore
+    encryptor = cipher.encryptor() # type: ignore
     encrypted_data = encryptor.update(padded_data) + encryptor.finalize()
     return encrypted_data
 
@@ -43,10 +43,10 @@ def decrypt_data(encrypted_data: bytes, key: bytes, iv: bytes) -> bytes:
     :param iv: The initialization vector (IV) used during encryption (in bytes).
     :return: The decrypted plaintext data (in bytes).
     """
-    cipher = Cipher(algorithms.AES(key), modes.CFB(iv), backend=default_backend())
-    decryptor = cipher.decryptor()
+    cipher = Cipher(algorithms.AES(key), modes.CFB(iv), backend=default_backend()) # type: ignore
+    decryptor = cipher.decryptor() # type: ignore
     padded_data = decryptor.update(encrypted_data) + decryptor.finalize()
-    unpadder = padding.PKCS7(128).unpadder()
+    unpadder = padding.PKCS7(128).unpadder() # type: ignore
     data = unpadder.update(padded_data) + unpadder.finalize()
     return data
 
@@ -69,7 +69,7 @@ def save_encrypted_dict_to_file(data_dict: dict, output_filename: str, password:
         length=32,
         salt=salt,
         iterations=100000,
-        backend=default_backend()
+        backend=default_backend() # type: ignore
     )
     key = kdf.derive(password.encode())
     iv = os.urandom(16)
@@ -97,7 +97,7 @@ def load_encrypted_dict_from_file(input_filename: str, password: str) -> dict:
         length=32,
         salt=salt,
         iterations=100000,
-        backend=default_backend()
+        backend=default_backend() # type: ignore
     )
     key = kdf.derive(password.encode())
     decrypted_data = decrypt_data(encrypted_data, key, iv)
