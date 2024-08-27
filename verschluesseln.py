@@ -10,12 +10,13 @@ The module includes functions to:
 """
 import json
 import os
+from typing import Any
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from typing import Any
+
 
 def encrypt_data(data: bytes, key: bytes, iv: bytes) -> Any:
     """
