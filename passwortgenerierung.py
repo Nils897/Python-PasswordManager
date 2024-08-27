@@ -7,8 +7,7 @@ uppercase/lowercase usage, digits, special characters, and a custom pattern.
 import random
 import string
 
-def generate_password(length, use_uppercase, use_lowercase, use_digits, use_special,
-                       exclude_chars, enforce_pattern):
+def generate_password(criteria):
     """
     Generiert ein zufälliges Passwort basierend auf den angegebenen Kriterien.
 
@@ -22,7 +21,13 @@ def generate_password(length, use_uppercase, use_lowercase, use_digits, use_spec
                             (z.B. "ULDS" für 1 Uppercase, 1 Lowercase, 1 Digit, 1 Special).
     :return: Das generierte Passwort.
     """
-
+    length = criteria['length']
+    use_uppercase = criteria['use_uppercase']
+    use_lowercase = criteria['use_lowercase']
+    use_digits = criteria['use_digits']
+    use_special = criteria['use_special']
+    exclude_chars = criteria.get('exclude_chars', '')
+    enforce_pattern = criteria.get('enforce_pattern', '')
     # Erstellen des möglichen Zeichensatzes
     characters = ''
     if use_uppercase:
@@ -67,5 +72,13 @@ def generate_password(length, use_uppercase, use_lowercase, use_digits, use_spec
 
 
 # Beispielverwendung:
-print(generate_password(length=16, use_uppercase=True, use_lowercase=True, use_digits=True,
-                         use_special=True, exclude_chars='bums', enforce_pattern="ULDS"))
+criteria = {
+    'length': 16,
+    'use_uppercase': True,
+    'use_lowercase': True,
+    'use_digits': True,
+    'use_special': True,
+    'exclude_chars': 'bums',
+    'enforce_pattern': 'ULDS'
+}
+print(generate_password(criteria))
