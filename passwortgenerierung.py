@@ -7,7 +7,7 @@ uppercase/lowercase usage, digits, special characters, and a custom pattern.
 import random
 import string
 
-def generate_password(criteria):
+def generate_password(criteria: dict) -> str:
     """
     Generiert ein zufälliges Passwort basierend auf den angegebenen Kriterien.
 
