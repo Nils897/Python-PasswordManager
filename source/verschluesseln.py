@@ -1,6 +1,5 @@
 """
-This module provides functionality for encrypting and decrypting data, 
-specifically dictionaries, using AES encryption with a password-derived key.
+This module provides functionality for encrypting and decrypting data, specifically dictionaries, using AES encryption with a password-derived key.
 
 The module includes functions to:
 - Encrypt data using AES encryption in CFB mode.
@@ -20,8 +19,7 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 def encrypt_data(data: bytes, key: bytes, iv: bytes) -> Any:
     """
-    Encrypts the given data using AES encryption in CFB mode with the specified key and
-    initialization vector (IV).
+    Encrypts the given data using AES encryption in CFB mode with the specified key and initialization vector (IV).
 
     :param data: The plaintext data to be encrypted (in bytes).
     :param key: The encryption key (in bytes).
@@ -37,8 +35,7 @@ def encrypt_data(data: bytes, key: bytes, iv: bytes) -> Any:
 
 def decrypt_data(encrypted_data: bytes, key: bytes, iv: bytes) -> Any:
     """
-    Decrypts the given encrypted data using AES decryption in CFB mode with the specified key
-    and initialization vector (IV).
+    Decrypts the given encrypted data using AES decryption in CFB mode with the specified key and initialization vector (IV).
 
     :param encrypted_data: The data to be decrypted (in bytes).
     :param key: The decryption key (in bytes).
@@ -83,8 +80,7 @@ def load_encrypted_dict_from_file(input_filename: str, password: str) -> Any:
     """
     Loads and decrypts an encrypted dictionary from a file using a password-derived key.
 
-    The function reads the salt, IV, and encrypted data from the file, derives the decryption key 
-    using the provided password, and decrypts the data back into its original dictionary form.
+    The function reads the salt, IV, and encrypted data from the file, derives the decryption key using the provided password, and decrypts the data back into its original dictionary form.
 
     :param input_filename: The name of the file containing the encrypted data.
     :param password: The password used to derive the decryption key.
