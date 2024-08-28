@@ -9,6 +9,11 @@ Secure and easy-to-use password manager for storing and managing your passwords 
 - [Creators-and-Contacts](#creators-and-contacts)
 
 ## Installation
+    1. Add the project to VS Code Workspace
+    2. Go in console and type in the following command to install all neccessary dependencies: 
+        pip install -r requirements.txt
+    3. Start main.py
+    4. You can now use the password manager 
 
 ## How to use
 
