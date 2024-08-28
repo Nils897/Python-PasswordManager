@@ -58,4 +58,3 @@ Testing and Code Quality:
     Linus Gerlach           TIT23       li.gerlach@freenet.de
     Philipp Staudinger      TIK23       philipp.eckhard.staudinger@gmail.com
     Nils Fleschhut          TIT23       fleschhut.nils@gmail.com
-    
