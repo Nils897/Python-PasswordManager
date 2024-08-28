@@ -16,6 +16,7 @@ Secure and easy-to-use password manager for storing and managing your passwords 
     4. You can now use the password manager 
 
 ## How to use
+    For detailed instructions on how to use the password manager, please refer to the [documentation.pdf](./documentation/documentation.pdf) included in this project.
 
 ## Features
 Secure Password Storage:
