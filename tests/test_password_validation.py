@@ -31,7 +31,7 @@ class TestPasswordValidation(unittest.TestCase):
     def test_is_password_correct_pwned(self, mock_pwned):
         self.assertFalse(is_password_correct("Pwned1@Password"))
 
-    @patch('source.password_validation.request_api', return_value="002AA9B2C3:2")
+    @patch('source.password_validation.request_api', return_value="1E4C9B93F3F0682250B6CF8331B7EE68FD8:2")
     def test_is_password_pwned_true(self, mock_request_api):
         self.assertTrue(is_password_pwned("password"))
 
