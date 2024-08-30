@@ -54,10 +54,9 @@ class TestGeneratePassword(unittest.TestCase):
             generate_password(options)
 
     def test_pattern_no_valid_chars(self):
-        options = {'length': 8, 'use_uppercase': False, 'use_lowercase': False, 'use_digits': True, 'use_special': False, 'enforce_pattern': 'U'}
+        options = {'length': 8, 'use_uppercase': False, 'use_lowercase': False, 'use_digits': True, 'use_special': False, 'enforce_pattern': 'U', 'exclude_chars': string.ascii_uppercase}
         with self.assertRaises(ValueError):
             generate_password(options)
-
 
 if __name__ == '__main__':
     unittest.main()
