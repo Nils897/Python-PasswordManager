@@ -44,7 +44,6 @@ class TestGeneratePassword(unittest.TestCase):
         self.assertTrue(any(c in string.punctuation for c in password))
 
     def test_empty_charset_error(self):
-        # Testen Sie den Fall, wenn kein gültiger Zeichensatz verfügbar ist
         options = {'length': 8, 'use_uppercase': False, 'use_lowercase': False, 'use_digits': False, 'use_special': False}
         with self.assertRaises(ValueError):
             generate_password(options)
