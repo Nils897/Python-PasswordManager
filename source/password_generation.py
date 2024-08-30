@@ -8,17 +8,18 @@ import string
 
 def generate_password(criteria: dict) -> str:
     """
-    Generiert ein zufälliges Passwort basierend auf den angegebenen Kriterien.
+    Generates a random password based on the specified criteria.
 
-    :param length: Länge des Passworts.
-    :param use_uppercase: Ob Großbuchstaben verwendet werden sollen.
-    :param use_lowercase: Ob Kleinbuchstaben verwendet werden sollen.
-    :param use_digits: Ob Zahlen verwendet werden sollen.
-    :param use_special: Ob Sonderzeichen verwendet werden sollen.
-    :param exclude_chars: Zeichen, die ausgeschlossen werden sollen.
-    :param enforce_pattern: Ein Muster, das im Passwort erzwungen werden soll (z.B. "ULDS" für 1 Uppercase, 1 Lowercase, 1 Digit, 1 Special).
-    :return: Das generierte Passwort.
+    :param length: Length of the password.
+    :param use_uppercase: Whether to include uppercase letters.
+    :param use_lowercase: Whether to include lowercase letters.
+    :param use_digits: Whether to include digits.
+    :param use_special: Whether to include special characters.
+    :param exclude_chars: Characters to exclude from the password.
+    :param enforce_pattern: A pattern to enforce in the password (e.g., "ULDS" for 1 Uppercase, 1 Lowercase, 1 Digit, 1 Special).
+    :return: The generated password.
     """
+
     length = criteria['length']
     use_uppercase = criteria['use_uppercase']
     use_lowercase = criteria['use_lowercase']
