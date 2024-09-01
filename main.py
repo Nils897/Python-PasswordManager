@@ -1,6 +1,6 @@
 import curses, re, sys, json, hashlib, os, datetime
 
-def startScreen(stdscr, height, width):
+def start_screen(stdscr, height, width):
     curses.curs_set(0)
     stdscr.clear()
     pair_number = [1, 2, 2]
@@ -9,24 +9,24 @@ def startScreen(stdscr, height, width):
     text2 = "Neuen Account anlegen"
     y = height // 2
     x = width
-    #exitText(stdscr, height, width)
+    #exit_text(stdscr, height, width)
     go = True
     while go == True:
         stdscr.addstr(y, (x - len(text1)) // 2, text1, curses.color_pair(pair_number[0]) | curses.A_BOLD)
         stdscr.addstr(y + 5, (x - len(text2)) // 2, text2, curses.color_pair(pair_number[1]) | curses.A_BOLD)
         stdscr.addstr(y + 8, (x - len("Beenden")) // 2, "Beenden", curses.color_pair(pair_number[2]) | curses.A_BOLD)
         stdscr.refresh()
-        ky, pair_number, go = choiceFunction(stdscr, ky, pair_number, go)
+        ky, pair_number, go = choice_function(stdscr, ky, pair_number, go)
     if ky == 0:
         mail = signIn(stdscr, height, width)
     elif ky == 1:
         mail = register(stdscr, height, width)
-        startScreen(stdscr, height, width)
+        start_screen(stdscr, height, width)
     elif ky == 2:
         sys.exit(0)
     return mail
 
-def choiceFunction(stdscr, ky, pair_number, go):
+def choice_function(stdscr, ky, pair_number, go):
     ky_max = len(pair_number) - 1
     ky_min = 0
     key = stdscr.getch()
@@ -39,7 +39,7 @@ def choiceFunction(stdscr, ky, pair_number, go):
         pair_number[ky] = 2
         ky -= 1
     elif key == 27:
-        isShureToExitTheProgram(stdscr)
+        is_sure_to_exit_program(stdscr)
     elif key in [10, 13]: #Entertaste
         go = False
     #elif key == ord('q'):
@@ -65,7 +65,7 @@ def register(stdscr, height, width):
     mail_correct = False
     password1_correct = False
     password2_correct = False
-    exitText(stdscr, height, width)
+    exit_text(stdscr, height, width)
     while go2 == True:
         while go == True:
             stdscr.addstr(y - 4, x - len(text2) - 8, text2, curses.color_pair(pair_number[0]) | curses.A_BOLD)
@@ -73,10 +73,10 @@ def register(stdscr, height, width):
             stdscr.addstr(y + 4, x - len(text4) - 8, text4, curses.color_pair(pair_number[2]) | curses.A_BOLD)
             stdscr.addstr(y + 8, x - len(text5) - 8, text5, curses.color_pair(pair_number[3]) | curses.A_BOLD)
             stdscr.refresh()
-            ky, pair_number, go = choiceFunction(stdscr, ky, pair_number, go)
+            ky, pair_number, go = choice_function(stdscr, ky, pair_number, go)
         if ky == 3:
             go2 = False
-            startScreen(stdscr, height, width)
+            start_screen(stdscr, height, width)
         else:
             if ky == 0:
                 stdscr.move(y - 4, x - 6)
@@ -91,11 +91,11 @@ def register(stdscr, height, width):
                 input_y, input_x = y + 4, x - 6
                 isPassword = True
             curses.curs_set(1)
-            user_input = inputFunction(stdscr, input_y, input_x, isPassword)
+            user_input = input_function(stdscr, input_y, input_x, isPassword)
             curses.curs_set(0)
             if ky == 0:
                 mail = user_input
-                if isMailCorrect(mail) == True:
+                if is_mail_correct(mail) == True:
                     mail_correct = True
                     stdscr.addstr(y - 4, x - 6 + len(mail) + 2, '\u2713')
                     stdscr.addstr(y - 3, x - 6, ' ' * len("Eingabe nicht korrekt!"))
@@ -111,13 +111,13 @@ def register(stdscr, height, width):
                 password2_available = True
             if password1_available == True:
                 word = password
-                if False == isPasswordCorrect(word):
+                if False == is_password_correct(word):
                     stdscr.addstr(y + 1, x, "Passwort muss 8 Zeichen lang, Klein-, Großbuchstaben, Zahlen, Sonderzeichen beinhalten", curses.color_pair(3))
                 else:
                     password1_correct = True
             if password2_available == True:
                 word = password2
-                if isPasswordCorrect(word) == False:
+                if is_password_correct(word) == False:
                     stdscr.addstr(y + 5, x, "Passwort muss 8 Zeichen lang, Klein-, Großbuchstaben, Zahlen, Sonderzeichen beinhalten", curses.color_pair(3))
                 else:
                     password2_correct = True
@@ -126,11 +126,11 @@ def register(stdscr, height, width):
             else:
                 go = True
             stdscr.refresh()
-            safeRegisterData(mail, password)
+            safe_register_data(mail, password)
     return mail
 
-def safeRegisterData(mail, password):
-    hashed_password = hashPassword(password)
+def safe_register_data(mail, password):
+    hashed_password = hash_password(password)
     new_data = {
         mail: {
             "mail": mail,
@@ -146,14 +146,14 @@ def safeRegisterData(mail, password):
     with open('./data.json', 'w') as json_file:
         json.dump(data, json_file, indent = 4)
 
-def readDataJson():
+def read_data_json():
     with open('./data.json', 'r', encoding = 'utf-8') as json_file:
         data = json.load(json_file)
     return data
 
 def signIn(stdscr, height, width):
     stdscr.clear()
-    data = readDataJson()
+    data = read_data_json()
     text1 = "Anmelden:"
     text2 = "E-Mail-Adresse:"
     text3 = "Master-Passwort:"
@@ -165,7 +165,7 @@ def signIn(stdscr, height, width):
     ky = 0
     mail_correct, password_correct = False, False
     stdscr.addstr(y - 8, x - len(text1), text1, curses.color_pair(2) | curses.A_BOLD)
-    exitText(stdscr, height, width)
+    exit_text(stdscr, height, width)
     stdscr.refresh()
     while go2 == True:
         while go == True:
@@ -173,10 +173,10 @@ def signIn(stdscr, height, width):
             stdscr.addstr(y, x - len(text3) - 8, text3, curses.color_pair(pair_number[1]) | curses.A_BOLD)
             stdscr.addstr(y + 4, x - len(text4) - 8, text4, curses.color_pair(pair_number[2]) | curses.A_BOLD)
             stdscr.refresh()
-            ky, pair_number, go = choiceFunction(stdscr, ky, pair_number, go)
+            ky, pair_number, go = choice_function(stdscr, ky, pair_number, go)
         if ky == 2:
             go2 = False
-            startScreen(stdscr, height, width)
+            start_screen(stdscr, height, width)
         else: 
             if ky == 0:
                 stdscr.move(y - 4, x - 6)
@@ -187,7 +187,7 @@ def signIn(stdscr, height, width):
                 input_y, input_x = y, x - 6
                 isPassword = True
             curses.curs_set(1)
-            user_input = inputFunction(stdscr, input_y, input_x, isPassword)
+            user_input = input_function(stdscr, input_y, input_x, isPassword)
             curses.curs_set(0)
             if ky == 0:
                 mail = user_input
@@ -197,7 +197,7 @@ def signIn(stdscr, height, width):
                     mail_correct = False
             if ky == 1:
                 password = user_input
-                hashed_password = hashPassword(password)
+                hashed_password = hash_password(password)
                 if hashed_password == data['accounts'][mail]['master-password']:
                     password_correct = True
                 else:
@@ -211,13 +211,13 @@ def signIn(stdscr, height, width):
             stdscr.refresh()
     return mail
 
-def passwordManager(stdscr, height, width, mail):
+def password_manager(stdscr, height, width, mail):
     stdscr.clear()
     y = height // 2
     x = width // 2
     ky = 0
     go = True
-    data = readDataJson()
+    data = read_data_json()
     passwords_list = data["accounts"][mail]["passwords-list"]
     passwords_list_sorted = sorted(passwords_list)
     pair_number = [1, 2]
@@ -240,24 +240,24 @@ def passwordManager(stdscr, height, width, mail):
     while go == True:
         stdscr.addstr(y - 8, x - len(text3) - 10, text3, curses.color_pair(pair_number[0]) | curses.A_BOLD)
         stdscr.addstr(y - 6, x - len(text2) - 10, text2, curses.color_pair(pair_number[1]) | curses.A_BOLD)
-        ky, pair_number, go = choiceFunction(stdscr, ky, pair_number, go)
+        ky, pair_number, go = choice_function(stdscr, ky, pair_number, go)
         stdscr.refresh()   
     if ky == 0:
         isPassword = False
         input_y, input_x = y - 8, x - 8
         stdscr.move(input_y, input_x)
         curses.curs_set(1)
-        data_to_be_shown = inputFunction(stdscr, input_y, input_x, isPassword)
+        data_to_be_shown = input_function(stdscr, input_y, input_x, isPassword)
         curses.curs_set(0)
         try:
             go = False
-            showPassword(stdscr, data, mail, data_to_be_shown, y, x, height, width)
+            show_password(stdscr, data, mail, data_to_be_shown, y, x, height, width)
         except KeyError:
-            passwordManager(stdscr, height, width, mail)
+            password_manager(stdscr, height, width, mail)
     else:
-        addNewPassword(stdscr, data, mail, height, width, y, x)
+        add_new_password(stdscr, data, mail, height, width, y, x)
 
-def addNewPassword(stdscr, data, mail, height, width, y, x):
+def add_new_password(stdscr, data, mail, height, width, y, x):
     stdscr.clear()
     text1 = "Name:"
     text2 = "URL:"
@@ -280,9 +280,9 @@ def addNewPassword(stdscr, data, mail, height, width, y, x):
             stdscr.addstr(y + 4, x - 20, "Speichern", curses.color_pair(pair_number[4]) | curses.A_BOLD)
             stdscr.addstr(y + 10, x - 20, "Zurück", curses.color_pair(pair_number[5]) | curses.A_BOLD)               
             stdscr.refresh()        
-            ky, pair_number, go = choiceFunction(stdscr, ky, pair_number, go)
+            ky, pair_number, go = choice_function(stdscr, ky, pair_number, go)
         if ky == 5:
-            passwordManager(stdscr, height, width, mail)
+            password_manager(stdscr, height, width, mail)
         elif ky == 4 and name_available == True and password_available == True:
             go2 = False
             time_of_access = datetime.datetime.now()
@@ -299,8 +299,8 @@ def addNewPassword(stdscr, data, mail, height, width, y, x):
                 }
             }
             new_data[name]["oldpasswordlist"].append(password)
-            safeNewPasswordData(new_data, mail, name)
-            passwordManager(stdscr, height, width, mail)
+            safe_new_password_data(new_data, mail, name)
+            password_manager(stdscr, height, width, mail)
         else:
             go = True
             if ky == 0:
@@ -320,7 +320,7 @@ def addNewPassword(stdscr, data, mail, height, width, y, x):
                 stdscr.move(input_y, input_x)
                 isPassword = True
             curses.curs_set(1)
-            user_input = inputFunction(stdscr, input_y, input_x, isPassword)
+            user_input = input_function(stdscr, input_y, input_x, isPassword)
             curses.curs_set(0)
             if ky == 0:
                 name = user_input
@@ -331,10 +331,10 @@ def addNewPassword(stdscr, data, mail, height, width, y, x):
                 notes = user_input
             elif ky == 3:
                 password = user_input
-                if True == isPasswordCorrect(password):
+                if True == is_password_correct(password):
                     password_available = True
 
-def safeNewPasswordData(new_data, mail, name):
+def safe_new_password_data(new_data, mail, name):
     with open('./data.json', 'r') as json_file:
         data = json.load(json_file)
     data["accounts"][mail]["passwords-list"].append(name)
@@ -342,7 +342,7 @@ def safeNewPasswordData(new_data, mail, name):
     with open('./data.json', 'w') as json_file:
         json.dump(data, json_file, indent = 4)
 
-def showPassword(stdscr, data, mail, data_to_be_shown, y, x, height, width):
+def show_password(stdscr, data, mail, data_to_be_shown, y, x, height, width):
     stdscr.clear()
     pair_number = [1, 2, 2, 2, 2]
     go, go2 = True, True
@@ -366,7 +366,7 @@ def showPassword(stdscr, data, mail, data_to_be_shown, y, x, height, width):
             stdscr.addstr(y + 4, x - 10, "Enträge ändern", curses.color_pair(pair_number[2]) | curses.A_BOLD)
             stdscr.addstr(y + 6, x - 10, "Enträge löschen", curses.color_pair(pair_number[3]) | curses.A_BOLD)
             stdscr.addstr(y + 8, x - 10, "Zurück", curses.color_pair(pair_number[4]) | curses.A_BOLD)
-            ky, pair_number, go = choiceFunction(stdscr, ky, pair_number, go)
+            ky, pair_number, go = choice_function(stdscr, ky, pair_number, go)
         if ky == 0:
             stdscr.addstr(y - 6, x - 10 + len("Passwort anzeigen") + 2, password)
             stdscr.refresh()
@@ -374,18 +374,18 @@ def showPassword(stdscr, data, mail, data_to_be_shown, y, x, height, width):
             stdscr.addstr(y - 4, x - 10 + len("Passwort kopieren") + 2, "Passwort in Zwischenablage kopiert")
         elif ky == 2:
             go2 = False
-            changeData(stdscr, height, width, mail, name, url, notes, password, data_to_be_shown, data)
+            change_data(stdscr, height, width, mail, name, url, notes, password, data_to_be_shown, data)
         elif ky == 3:
             go2 = False
-            deletePassword(mail, data_to_be_shown)
-            passwordManager(stdscr, height, width, mail)
+            delete_password(mail, data_to_be_shown)
+            password_manager(stdscr, height, width, mail)
         elif ky == 4:
             go2 = False
-            passwordManager(stdscr, height, width, mail)
+            password_manager(stdscr, height, width, mail)
         go = True
     stdscr.getch()
 
-def deletePassword(mail, data_to_be_shown):
+def delete_password(mail, data_to_be_shown):
     with open('./data.json', 'r') as json_file:
         data = json.load(json_file)
     del data["accounts"][mail]["passwords"][data_to_be_shown]
@@ -394,7 +394,7 @@ def deletePassword(mail, data_to_be_shown):
         json.dump(data, json_file, indent = 4)
 
 
-def changeData(stdscr, height, width, mail, name, url, notes, password, data_to_be_shown, data):
+def change_data(stdscr, height, width, mail, name, url, notes, password, data_to_be_shown, data):
     stdscr.clear()
     x = width //2
     y = height //2
@@ -419,14 +419,14 @@ def changeData(stdscr, height, width, mail, name, url, notes, password, data_to_
             stdscr.addstr(y + 10, x - 30, "Speichern", curses.color_pair(pair_number[4]) | curses.A_BOLD)
             stdscr.addstr(y + 12, x - 30, "Zurück", curses.color_pair(pair_number[5]) | curses.A_BOLD)
             stdscr.refresh()
-            ky, pair_number, go = choiceFunction(stdscr, ky, pair_number, go)
+            ky, pair_number, go = choice_function(stdscr, ky, pair_number, go)
         if ky == 5:
             go2 = False
-            showPassword(stdscr, data, mail, data_to_be_shown, y, x, height, width)
+            show_password(stdscr, data, mail, data_to_be_shown, y, x, height, width)
         elif ky == 4:
             go2 = False
-            data = safeChangedData(mail, name, url, notes, password, old_name, is_name_changed)
-            showPassword(stdscr, data, mail, data_to_be_shown, y, x, height, width)
+            data = safe_changed_data(mail, name, url, notes, password, old_name, is_name_changed)
+            show_password(stdscr, data, mail, data_to_be_shown, y, x, height, width)
         else:
             go = True
             if ky == 0:
@@ -447,7 +447,7 @@ def changeData(stdscr, height, width, mail, name, url, notes, password, data_to_
                 stdscr.move(input_y, input_x)
                 isPassword = True
             curses.curs_set(1)
-            user_input = inputFunction(stdscr, input_y, input_x, isPassword)
+            user_input = input_function(stdscr, input_y, input_x, isPassword)
             curses.curs_set(0)
             if ky == 0:
                 new_name = user_input
@@ -468,7 +468,7 @@ def changeData(stdscr, height, width, mail, name, url, notes, password, data_to_
                 if new_password in data["accounts"][mail]["passwords"][name]["oldpasswordlist"]:
                     stdscr.addstr(y + 8, x - 30, "Passwort schon mal verwendet", curses.color_pair(3))
                     stdscr.refresh()
-                elif True == isPasswordCorrect(new_password):
+                elif True == is_password_correct(new_password):
                     password = new_password
                 else:
                     stdscr.addstr(y + 8, x - 30, "Passwort unsicher", curses.color_pair(3))
@@ -476,7 +476,7 @@ def changeData(stdscr, height, width, mail, name, url, notes, password, data_to_
                     
     stdscr.getch()
 
-def safeChangedData(mail, name, url, notes, password, old_name, is_name_changed):
+def safe_changed_data(mail, name, url, notes, password, old_name, is_name_changed):
     with open('./data.json', 'r') as json_file:
         data = json.load(json_file)
     if is_name_changed == True:
@@ -517,18 +517,18 @@ def safeChangedData(mail, name, url, notes, password, old_name, is_name_changed)
     return data
     
 
-def exitText(stdscr, height, width):
+def exit_text(stdscr, height, width):
     pass
     #stdscr.addstr(height - 1, 0, ' ' * width)
     #stdscr.refresh()
     #stdscr.addstr(height - 1, 2, "Drücke \"Esc\" zum beenden", curses.color_pair(2))
     #stdscr.refresh()
 
-def hashPassword(password):
+def hash_password(password):
     sha_signature = hashlib.sha256(password.encode()).hexdigest()
     return sha_signature
 
-def isPasswordCorrect(word):
+def is_password_correct(word): # eigentlich dazu eine datei
     if len(word) < 8:
         return False
     if not re.search(r'\d', word):
@@ -541,11 +541,11 @@ def isPasswordCorrect(word):
         return False
     return True
     
-def isMailCorrect(mail):
+def is_mail_correct(mail):
     pattern = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
     return bool(pattern.match(mail))
 
-def inputFunction(stdscr, input_y, input_x, isPassword):
+def input_function(stdscr, input_y, input_x, isPassword):
     beginx = input_x
     user_input = ""
     go = True
@@ -573,7 +573,7 @@ def inputFunction(stdscr, input_y, input_x, isPassword):
         elif inp == curses.KEY_UP or inp == curses.KEY_DOWN:
             pass
         elif inp == 27:
-            isShureToExitTheProgram(stdscr)
+            is_sure_to_exit_program(stdscr)
         else:
             if isPassword == False:
                 stdscr.addch(input_y, input_x, chr(inp))
@@ -587,7 +587,7 @@ def inputFunction(stdscr, input_y, input_x, isPassword):
                 input_x += 1
     return user_input
 
-def isShureToExitTheProgram(stdscr):
+def is_sure_to_exit_program(stdscr):
     height, width = stdscr.getmaxyx()
     text = "Sicher, dass Sie das Programm beenden wollen? \"Enter\":beenden | \"Esc\":abbrechen"
     stdscr.addstr(height - 1, 2, ' ' * len("Drücke \"Esc\" zum beenden"))
@@ -598,9 +598,9 @@ def isShureToExitTheProgram(stdscr):
     if exit_input == [10, 13]:
         sys.exit(0)
     elif exit_input == 27:
-        exitText(stdscr, width, height)
+        exit_text(stdscr, width, height)
 
-def createAccountsFile():
+def create_accounts_file():
     if os.path.exists('./data.json'):
         pass
     else:
@@ -621,9 +621,9 @@ def main(stdscr):
     curses.init_pair(3, curses.COLOR_RED, curses.COLOR_BLACK) #Schriftfarbe: Rot, Hintergrundfarbe: Schwarz
     curses.init_pair(4, curses.COLOR_WHITE, curses.COLOR_BLACK)
     height, width = stdscr.getmaxyx()
-    createAccountsFile()
-    mail = startScreen(stdscr, height, width)
-    passwordManager(stdscr, height, width, mail)
+    create_accounts_file()
+    mail = start_screen(stdscr, height, width)
+    password_manager(stdscr, height, width, mail)
 
 if __name__ == "__main__":
     curses.wrapper(main)
