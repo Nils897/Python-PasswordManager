@@ -9,5 +9,6 @@ module-naming-style=snake_case
 variable-naming-style=snake_case
 [DESIGN]
 max-attributes=10
+max-locals=50
 [FORMAT]
 max-line-length=200

@@ -229,8 +229,6 @@ def safe_register_data(mail: str, password: str) -> None:
     with open('./data.json', 'w') as json_file:
         json.dump(data, json_file, indent = 4)
 
-
-
 def read_data_json() -> Any:
     """
     Reads and returns the data from the JSON file.
