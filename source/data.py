@@ -10,14 +10,14 @@ Functions:
 - safe_register_data: Registers a new account and stores it in the JSON file.
 - read_data_json: returns the data from the JSON file.
 """
-
-
-
 import curses
 import json
 import os
 import datetime
 from typing import Any
+from source.password_manager_framework import choice_function, input_function
+from source.password import show_password, hash_password
+from source.validation import is_password_correct
 
 def create_accounts_file() -> None:
     """
