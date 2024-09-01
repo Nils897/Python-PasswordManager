@@ -4,6 +4,7 @@ Secure and easy-to-use password manager for storing and managing your passwords 
 
 ## Inhaltsverzeichnis
 - [Installation](#installation)
+- [Warnings](#Warnings)
 - [How-to-use](#how-to-use)
 - [Features](#features)
 - [Creators-and-Contacts](#creators-and-contacts)
@@ -14,6 +15,10 @@ Secure and easy-to-use password manager for storing and managing your passwords 
         pip install -r requirements.txt
     3. Start main.py
     4. You can now use the password manager 
+
+## Warnings
+    1. Some features like the specific password generating is possible with the function in the corresponding python-file but its not implemented in the usable password-manager due to time issues. So the requirement is generally there but not fully implemented
+    2. The unittests in "test_password_manager" for the pythonfile: "password_manager" have some issues which we couldnt fix in the remaining time
 
 ## How to use
     For detailed instructions on how to use the password manager, please refer to the [documentation.pdf](./documentation/documentation.pdf) included in this project.

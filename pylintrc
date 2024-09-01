@@ -13,5 +13,6 @@ max-locals=50
 max-branches=20
 max-args=10
 max-statements=100
+max-public-methods=30
 [FORMAT]
 max-line-length=200

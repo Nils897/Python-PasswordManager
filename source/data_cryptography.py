@@ -101,15 +101,3 @@ def load_encrypted_dict_from_file(input_filename: str, password: str) -> Any:
     decrypted_data = decrypt_data(encrypted_data, key, iv)
     json_string = decrypted_data.decode('utf-8')
     return json.loads(json_string)
-
-# Beispielhafte Verwendung:
-
-# Speichern eines Dictionaries als verschlüsselte Datei
-info_dict = {'name': 'John Doe', 'age': 30, 'city': 'New York'}
-OUTPUT_FILENAME = 'encrypted_data.json'
-PASSWORD = 'strong_password123'
-save_encrypted_dict_to_file(info_dict, OUTPUT_FILENAME, PASSWORD)
-
-# Laden eines Dictionaries aus einer verschlüsselten Datei
-loaded_dict = load_encrypted_dict_from_file(OUTPUT_FILENAME, PASSWORD)
-print(loaded_dict)
