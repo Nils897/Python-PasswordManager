@@ -6,6 +6,16 @@ import re
 import hashlib
 import requests
 
+def is_mail_correct(mail: str) -> bool:
+    """
+    Validates if the provided email address matches a standard email pattern.
+    
+    Returns True if the email is valid, False otherwise.
+    """
+    pattern = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
+    return bool(pattern.match(mail))
+
+
 def is_password_correct(password: str) -> bool:
     """
     Validates the given password against specific security criteria.

@@ -305,3 +305,79 @@ def signIn(stdscr: curses.window, height: int, width: int) -> str:
                 stdscr.addstr(y + 6, x - 20, "E-Mail oder Passwort nicht korrekt", curses.color_pair(4))
             stdscr.refresh()
     return mail
+
+def input_function(stdscr: curses.window, input_y: int, input_x: int, is_password: bool) -> str:
+    """
+    Captures user input at a specific terminal position. 
+    Supports normal and password (masked) input. 
+    Handles navigation, backspace, and exit confirmation.
+    
+    Returns the entered input as a string.
+    """
+    beginx = input_x
+    user_input = ""
+    go = True
+    while go:
+        inp = stdscr.getch()
+        if inp in [10, 13]:
+            go = False
+        elif inp == curses.KEY_BACKSPACE:
+            if input_x > beginx:
+                stdscr.addch(input_y, input_x - 1, ' ')
+                stdscr.move(input_y, input_x - 1)
+                stdscr.refresh()
+                user_input = user_input[:-1]
+                input_x -= 1
+        elif inp == curses.KEY_RIGHT:
+            if input_x < beginx + len(user_input):
+                input_x += 1
+                stdscr.move(input_y, input_x)
+                stdscr.refresh()
+        elif inp == curses.KEY_LEFT:
+            if input_x > beginx:
+                input_x -= 1
+                stdscr.move(input_y, input_x)
+                stdscr.refresh()
+        elif inp == curses.KEY_UP or inp == curses.KEY_DOWN:
+            pass
+        elif inp == 27:
+            is_sure_to_exit_program(stdscr)
+        else:
+            if not is_password:
+                stdscr.addch(input_y, input_x, chr(inp))
+                stdscr.refresh()
+                user_input += chr(inp)
+                input_x += 1
+            elif is_password:
+                stdscr.addch(input_y, input_x, '*')
+                stdscr.refresh()
+                user_input += chr(inp)
+                input_x += 1
+    return user_input
+
+def exit_text(stdscr: curses.window, height: int, width: int) -> None:
+    """
+    Prompts an exit text for the user
+    """
+    pass
+    #stdscr.addstr(height - 1, 0, ' ' * width)
+    #stdscr.refresh()
+    #stdscr.addstr(height - 1, 2, "Drücke \"Esc\" zum beenden", curses.color_pair(2))
+    #stdscr.refresh()
+
+def is_sure_to_exit_program(stdscr: curses.window) -> None:
+    """
+    Displays an exit confirmation prompt to the user.
+    Exits the program if 'Enter' is pressed, or cancels if 'Esc' is pressed.
+    """
+    height, width = stdscr.getmaxyx()
+    text = "Sicher, dass Sie das Programm beenden wollen? \"Enter\":beenden | \"Esc\":abbrechen"
+    stdscr.addstr(height - 1, 2, ' ' * len("Drücke \"Esc\" zum beenden"))
+    stdscr.refresh()
+    stdscr.addstr(height - 1, (width - len(text)) // 2, text, curses.color_pair(2))
+    stdscr.refresh()
+    exit_input = stdscr.getch()
+    if exit_input == [10, 13]:
+        sys.exit(0)
+    elif exit_input == 27:
+        exit_text(stdscr, width, height)
