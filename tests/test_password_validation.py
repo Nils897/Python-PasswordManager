@@ -4,7 +4,39 @@ import requests
 from unittest.mock import patch
 from source.validation import is_password_correct, is_password_pwned, request_api, is_mail_correct
 
-class TestPasswordValidation(unittest.TestCase):
+class TestValidation(unittest.TestCase):
+    def test_valid_emails(self):
+        # Testen mit einer Liste von gültigen E-Mail-Adressen
+        valid_emails = [
+            "example@example.com",
+            "user.name@domain.co",
+            "user_name@sub.domain.com",
+            "user-name@domain.co.uk",
+            "user+name@domain.org",
+            "user123@domain.com",
+            "u@d.co"
+        ]
+        for email in valid_emails:
+            with self.subTest(email=email):
+                self.assertTrue(is_mail_correct(email))
+    
+    def test_invalid_emails(self):
+        # Testen mit einer Liste von ungültigen E-Mail-Adressen
+        invalid_emails = [
+            "plainaddress",
+            "@missingusername.com",
+            "username@.com",
+            "username@domain..com",
+            "username@domain.c",
+            "username@domain.corporation",
+            "username@-domain.com",
+            "username@domain.com.",
+            "user@domain@domain.com",
+            "user@domain..com",
+        ]
+        for email in invalid_emails:
+            with self.subTest(email=email):
+                self.assertFalse(is_mail_correct(email))
 
     def test_is_password_correct_valid(self):
         self.assertTrue(is_password_correct("Valid1@Password"))
