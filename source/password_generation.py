@@ -26,8 +26,7 @@ def generate_password(criteria: dict) -> str:
     use_digits = criteria['use_digits']
     use_special = criteria['use_special']
     exclude_chars = criteria.get('exclude_chars', '')
-    enforce_pattern = criteria.get('enforce_pattern', '')
-    # Erstellen des möglichen Zeichensatzes
+    enforce_pattern = criteria.get('enforce_pattern', '')    
     characters = ''
     if use_uppercase:
         characters += string.ascii_uppercase
@@ -36,46 +35,24 @@ def generate_password(criteria: dict) -> str:
     if use_digits:
         characters += string.digits
     if use_special:
-        characters += string.punctuation
-    # Ausschluss bestimmter Zeichen
+        characters += string.punctuation    
     if exclude_chars:
-        characters = ''.join(c for c in characters if c not in exclude_chars)
-    # Sicherstellen, dass der Zeichensatz nicht leer ist
+        characters = ''.join(c for c in characters if c not in exclude_chars)    
     if not characters:
-        raise ValueError("Zeichensatz ist leer. Bitte mindestens eine Zeichengruppe einschließen.")
-    # Generierung des Passworts
+        raise ValueError("Zeichensatz ist leer. Bitte mindestens eine Zeichengruppe einschließen.")    
     if enforce_pattern:
         password = []
-        pattern_dict = {'U': string.ascii_uppercase, 'L': string.ascii_lowercase, 'D': string.digits, 'S': string.punctuation}
-        # Für jedes Musterzeichen das entsprechende Zeichen hinzufügen
+        pattern_dict = {'U': string.ascii_uppercase, 'L': string.ascii_lowercase, 'D': string.digits, 'S': string.punctuation}        
         for char in enforce_pattern:
-            if char in pattern_dict:
-                # Ausschluss bestimmter Zeichen aus dem Musterzeichensatz
+            if char in pattern_dict:                
                 valid_chars = [c for c in pattern_dict[char] if c not in exclude_chars]
                 if not valid_chars:
                     raise ValueError(f"Kein gültiges Zeichen für das Musterzeichen '{char}'.")
                 password.append(random.choice(valid_chars))
             else:
-                raise ValueError(f"Ungültiges Musterzeichen '{char}' in enforce_pattern.")
-        # Restliche Zeichen zufällig hinzufügen
+                raise ValueError(f"Ungültiges Musterzeichen '{char}' in enforce_pattern.")        
         remaining_length = length - len(password)
-        password += random.choices(characters, k=remaining_length)
-        # Passwort zufällig mischen
+        password += random.choices(characters, k=remaining_length)        
         random.shuffle(password)
-        #muss man sich dann überlegen ob man das muster so haben will wie man es eingibt oder das das nur dafür da ist das auf jeden fall davon welche vorkommen.
         return ''.join(password)
-    # Wenn kein Muster erzwungen wird, ein einfaches zufälliges Passwort generieren
     return ''.join(random.choice(characters) for _ in range(length))
-
-
-# Beispielverwendung:
-options = {
-    'length': 16,
-    'use_uppercase': True,
-    'use_lowercase': True,
-    'use_digits': True,
-    'use_special': True,
-    'exclude_chars': 'bums',
-    'enforce_pattern': 'ULDS'
-}
-print(generate_password(options))
