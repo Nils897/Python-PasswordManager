@@ -1,3 +1,7 @@
+"""
+This module is main.py
+"""
+
 import curses, re, sys, json, hashlib, os, datetime
 from source.password_validation import is_password_correct
 
@@ -265,7 +269,7 @@ def signIn(stdscr, height, width):
         if ky == 2:
             go2 = False
             start_screen(stdscr, height, width)
-        else: 
+        else:
             if ky == 0:
                 stdscr.move(y - 4, x - 6)
                 input_y, input_x = y - 4, x - 6
@@ -339,12 +343,12 @@ def password_manager(stdscr, height, width, mail):
             x_new = 20
         stdscr.refresh()
     line = "-" * width
-    stdscr.addstr(y - 5, 0, line)   
+    stdscr.addstr(y - 5, 0, line)
     while go == True:
         stdscr.addstr(y - 8, x - len(text3) - 10, text3, curses.color_pair(pair_number[0]) | curses.A_BOLD)
         stdscr.addstr(y - 6, x - len(text2) - 10, text2, curses.color_pair(pair_number[1]) | curses.A_BOLD)
         ky, pair_number, go = choice_function(stdscr, ky, pair_number, go)
-        stdscr.refresh()   
+        stdscr.refresh()
     if ky == 0:
         isPassword = False
         input_y, input_x = y - 8, x - 8
@@ -399,8 +403,8 @@ def add_new_password(stdscr, data, mail, height, width, y, x):
             stdscr.addstr(y - 2, x - 20, text3, curses.color_pair(pair_number[2]) | curses.A_BOLD)
             stdscr.addstr(y, x - 20, text4, curses.color_pair(pair_number[3]) | curses.A_BOLD)
             stdscr.addstr(y + 4, x - 20, "Speichern", curses.color_pair(pair_number[4]) | curses.A_BOLD)
-            stdscr.addstr(y + 10, x - 20, "Zurück", curses.color_pair(pair_number[5]) | curses.A_BOLD)               
-            stdscr.refresh()        
+            stdscr.addstr(y + 10, x - 20, "Zurück", curses.color_pair(pair_number[5]) | curses.A_BOLD)           
+            stdscr.refresh()
             ky, pair_number, go = choice_function(stdscr, ky, pair_number, go)
         if ky == 5:
             password_manager(stdscr, height, width, mail)
@@ -654,7 +658,7 @@ def change_data(stdscr, height, width, mail, name, url, notes, password, data_to
                     password = new_password
                 else:
                     stdscr.addstr(y + 8, x - 30, "Passwort unsicher", curses.color_pair(3))
-                    stdscr.refresh()       
+                    stdscr.refresh()    
     stdscr.getch()
 
 def safe_changed_data(mail, name, url, notes, password, old_name, is_name_changed):
@@ -715,7 +719,6 @@ def safe_changed_data(mail, name, url, notes, password, old_name, is_name_change
     with open('./data.json', 'w') as json_file:
         json.dump(data, json_file, indent = 4)
     return data
-    
 
 def exit_text(stdscr, height, width):
     """
@@ -735,7 +738,7 @@ def hash_password(password):
     """
     sha_signature = hashlib.sha256(password.encode()).hexdigest()
     return sha_signature
-    
+   
 def is_mail_correct(mail):
     """
     Validates if the provided email address matches a standard email pattern.
