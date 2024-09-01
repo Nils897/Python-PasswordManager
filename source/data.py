@@ -32,7 +32,7 @@ def create_accounts_file() -> None:
             "accounts": {
             }
         }
-        with open('./data.json', 'w') as file:
+        with open('./data.json', 'w', encoding='utf-8') as file:
             json.dump(data, file, ensure_ascii = False, indent = 4)
 
 def change_data(stdscr: curses.window, height: int, width: int, mail: str, name: str, url: str, notes: str, password: str, data_to_be_shown: str, data: dict) -> None:
@@ -91,6 +91,7 @@ def change_data(stdscr: curses.window, height: int, width: int, mail: str, name:
             show_password(stdscr, data, mail, data_to_be_shown, y, x, height, width)
         else:
             go = True
+            is_password = True
             if ky == 0:
                 input_y, input_x = y - 5, x - 28 + len("Neuer Name:")
                 stdscr.move(input_y, input_x)
@@ -157,7 +158,7 @@ def safe_changed_data(mail: str, name: str, url: str, notes: str, password: str,
     Returns:
         dict: The updated data structure from 'data.json'.
     """
-    with open('./data.json', 'r') as json_file:
+    with open('./data.json', 'r', encoding='utf-8') as json_file:
         data = json.load(json_file)
     if is_name_changed:
         old_password_list = data["accounts"][mail]["passwords"][old_name]["oldpasswordlist"]
@@ -193,7 +194,7 @@ def safe_changed_data(mail: str, name: str, url: str, notes: str, password: str,
     new_date_of_last_change_format = new_date_of_last_change.strftime("%d.%m.%Y %H:%M")
     new_date_of_last_change_format_to_dic = { "dateoflastchange": new_date_of_last_change_format }
     data["accounts"][mail]["passwords"][name].update(new_date_of_last_change_format_to_dic)
-    with open('./data.json', 'w') as json_file:
+    with open('./data.json', 'w', encoding='utf-8') as json_file:
         json.dump(data, json_file, indent = 4)
     return data
 
@@ -223,10 +224,10 @@ def safe_register_data(mail: str, password: str) -> None:
             }
         }
     }
-    with open('./data.json', 'r') as json_file:
+    with open('./data.json', 'r', encoding='utf-8') as json_file:
         data = json.load(json_file)
     data["accounts"].update(new_data)
-    with open('./data.json', 'w') as json_file:
+    with open('./data.json', 'w', encoding='utf-8') as json_file:
         json.dump(data, json_file, indent = 4)
 
 def read_data_json() -> Any:

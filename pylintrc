@@ -10,5 +10,8 @@ variable-naming-style=snake_case
 [DESIGN]
 max-attributes=10
 max-locals=50
+max-branches=20
+max-args=10
+max-statements=100
 [FORMAT]
 max-line-length=200
