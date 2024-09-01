@@ -765,7 +765,7 @@ def input_function(stdscr, input_y, input_x, is_password):
     beginx = input_x
     user_input = ""
     go = True
-    while go == True:
+    while go:
         inp = stdscr.getch()
         if inp in [10, 13]:
             go = False
@@ -791,12 +791,12 @@ def input_function(stdscr, input_y, input_x, is_password):
         elif inp == 27:
             is_sure_to_exit_program(stdscr)
         else:
-            if is_password == False:
+            if not is_password:
                 stdscr.addch(input_y, input_x, chr(inp))
                 stdscr.refresh()
                 user_input += chr(inp)
                 input_x += 1
-            elif is_password == True:
+            elif is_password:
                 stdscr.addch(input_y, input_x, '*')
                 stdscr.refresh()
                 user_input += chr(inp)
@@ -836,11 +836,14 @@ def create_accounts_file():
             json.dump(data, file, ensure_ascii = False, indent = 4)
 
 def main(stdscr):
+    """
+    Main function in which screen options are declared, ...
+    """
     #curses.resize_term(30, 50)
-    SELF_GREY = 1
+    self_grey = 1
     curses.start_color()
-    curses.init_color(SELF_GREY, 400, 400, 400)
-    curses.init_pair(1, curses.COLOR_GREEN, SELF_GREY) #Schriftfarbe: Grün, Hintergrundfarbe: Hellgrau
+    curses.init_color(self_grey, 400, 400, 400)
+    curses.init_pair(1, curses.COLOR_GREEN, self_grey) #Schriftfarbe: Grün, Hintergrundfarbe: Hellgrau
     curses.init_pair(2, curses.COLOR_GREEN, curses.COLOR_BLACK) #Schriftfarbe: Grün, Hintergrundfarbe: Schwarz
     curses.init_pair(3, curses.COLOR_RED, curses.COLOR_BLACK) #Schriftfarbe: Rot, Hintergrundfarbe: Schwarz
     curses.init_pair(4, curses.COLOR_WHITE, curses.COLOR_BLACK)
