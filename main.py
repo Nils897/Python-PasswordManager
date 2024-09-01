@@ -831,6 +831,7 @@ def create_accounts_file() -> None:
     if os.path.exists('./data.json'):
         pass
     else:
+        data: dict
         data = {
             "accounts": {
             }
