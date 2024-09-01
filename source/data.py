@@ -1,3 +1,17 @@
+"""
+This module provides functions for managing account and password data.
+It allows creating, updating, and storing account information in a JSON file,
+with a terminal-based user interface using the `curses` library.
+
+Functions:
+- create_accounts_file: Ensures the 'data.json' file exists or creates it if missing.
+- change_data: Allows users to update account details via terminal input.
+- safe_changed_data: Saves updated account data to the JSON file.
+- safe_register_data: Registers a new account and stores it in the JSON file.
+"""
+
+
+
 import curses
 import json
 import os
