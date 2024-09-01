@@ -1,3 +1,11 @@
+"""
+This module provides following functions:
+ - add a new password
+ - safe the new password data
+ - show a specific password
+ - delete a specific password
+ - hash a password
+"""
 import curses
 import json
 import hashlib
@@ -201,9 +209,6 @@ def delete_password(mail: str, data_to_be_shown: str) -> None:
     data["accounts"][mail]["passwords-list"].remove(data_to_be_shown)
     with open('./data.json', 'w') as json_file:
         json.dump(data, json_file, indent = 4)
-
-
-
 
 def hash_password(password: str) -> str:
     """
