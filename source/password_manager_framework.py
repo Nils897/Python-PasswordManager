@@ -11,18 +11,11 @@ Functions:
 
 This module leverages the curses library for terminal screen management and user input handling.
 """
-
-
-
 import curses
-import re
 import sys
-import json
-import hashlib
-import os
-import datetime
 from typing import Any
-from source.password_validation import is_password_correct
+from source.data import safe_register_data
+from source.validation import is_password_correct
 
 def start_screen(stdscr: curses.window, height: int, width: int) -> str:
     """
@@ -251,8 +244,6 @@ def register(stdscr: curses.window, height: int, width: int) -> str:
             stdscr.refresh()
             safe_register_data(mail, password)
     return mail
-
-
 
 def signIn(stdscr: curses.window, height: int, width: int) -> str:
     """
