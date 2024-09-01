@@ -11,8 +11,8 @@ import json
 import hashlib
 import datetime
 from typing import Any
-from source.validation import is_password_correct
 from main import password_manager
+from source.validation import is_password_correct
 from source.data import change_data
 from source.password_manager_framework import choice_function, input_function
 
@@ -50,6 +50,7 @@ def add_new_password(stdscr: curses.window, mail: str, height: int, width: int, 
     name_available, password_available = False, False
     stdscr.addstr(y - 10, x - (len(text5) //2), text5, curses.color_pair(2) | curses.A_BOLD)
     stdscr.refresh()
+    is_password = True
     while go2:
         while go:
             stdscr.addstr(y - 6, x - 20, text1, curses.color_pair(pair_number[0]) | curses.A_BOLD)
@@ -126,11 +127,11 @@ def safe_new_password_data(new_data: dict, mail: str, name: str) -> None:
     Returns:
         None
     """
-    with open('./data.json', 'r') as json_file:
+    with open('./data.json', 'r', encoding='utf-8') as json_file:
         data = json.load(json_file)
     data["accounts"][mail]["passwords-list"].append(name)
     data["accounts"][mail]["passwords"].update(new_data)
-    with open('./data.json', 'w') as json_file:
+    with open('./data.json', 'w', encoding='utf-8') as json_file:
         json.dump(data, json_file, indent = 4)
 
 def show_password(stdscr: curses.window, data: dict, mail: str, data_to_be_shown: str, y: int, x: int, height: int, width: int) -> None:
@@ -206,11 +207,11 @@ def delete_password(mail: str, data_to_be_shown: str) -> None:
     Returns:
         None
     """
-    with open('./data.json', 'r') as json_file:
+    with open('./data.json', 'r', encoding='utf-8') as json_file:
         data = json.load(json_file)
     del data["accounts"][mail]["passwords"][data_to_be_shown]
     data["accounts"][mail]["passwords-list"].remove(data_to_be_shown)
-    with open('./data.json', 'w') as json_file:
+    with open('./data.json', 'w', encoding='utf-8') as json_file:
         json.dump(data, json_file, indent = 4)
 
 def hash_password(password: str) -> str:
