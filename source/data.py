@@ -181,3 +181,35 @@ def safe_changed_data(mail: str, name: str, url: str, notes: str, password: str,
     with open('./data.json', 'w') as json_file:
         json.dump(data, json_file, indent = 4)
     return data
+
+
+
+def safe_register_data(mail: str, password: str) -> None:
+    """
+    Registers a new account by adding it to the JSON data file.
+
+    Hashes the provided password, creates a new account entry, and updates
+    the 'data.json' file with this new account information.
+
+    Args:
+        mail (str): The email address associated with the new account.
+        password (str): The master password for the new account.
+
+    Returns:
+        None
+    """
+    hashed_password = hash_password(password)
+    new_data = {
+        mail: {
+            "mail": mail,
+            "master-password": hashed_password,
+            "passwords-list": [],
+            "passwords": { 
+            }
+        }
+    }
+    with open('./data.json', 'r') as json_file:
+        data = json.load(json_file)
+    data["accounts"].update(new_data)
+    with open('./data.json', 'w') as json_file:
+        json.dump(data, json_file, indent = 4)

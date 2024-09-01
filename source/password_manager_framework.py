@@ -1,14 +1,12 @@
 """
 This module provides the interface for the start screen and user authentication processes in a terminal-based application. 
-It includes functions to display the start screen, navigate the menu, handle user input for signing in, registering new 
-accounts, and saving user data to a JSON file.
+It includes functions to display the start screen, navigate the menu, handle user input for signing in, registering new accounts.
 
 Functions:
 
 - start_screen: Displays the initial start screen with options to sign in, register, or exit the application.
 - choice_function: Handles user navigation through menu options and selection based on keypresses.
 - register: Facilitates user registration by collecting and validating email and password inputs, and saving the new account to a JSON file.
-- safe_register_data: Saves the registered user's data (email and hashed password) to a JSON file.
 - read_data_json: Reads and returns the contents of the JSON file where user data is stored.
 - signIn: Manages the sign-in process by verifying the provided email and master password against stored data.
 
@@ -206,35 +204,6 @@ def register(stdscr: curses.window, height: int, width: int) -> str:
             safe_register_data(mail, password)
     return mail
 
-def safe_register_data(mail: str, password: str) -> None:
-    """
-    Registers a new account by adding it to the JSON data file.
-
-    Hashes the provided password, creates a new account entry, and updates
-    the 'data.json' file with this new account information.
-
-    Args:
-        mail (str): The email address associated with the new account.
-        password (str): The master password for the new account.
-
-    Returns:
-        None
-    """
-    hashed_password = hash_password(password)
-    new_data = {
-        mail: {
-            "mail": mail,
-            "master-password": hashed_password,
-            "passwords-list": [],
-            "passwords": { 
-            }
-        }
-    }
-    with open('./data.json', 'r') as json_file:
-        data = json.load(json_file)
-    data["accounts"].update(new_data)
-    with open('./data.json', 'w') as json_file:
-        json.dump(data, json_file, indent = 4)
 
 def read_data_json() -> Any:
     """
