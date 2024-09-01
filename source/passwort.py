@@ -1,20 +1,9 @@
-
 import curses
-import re
-import sys
 import json
 import hashlib
-import os
 import datetime
 from typing import Any
-from source.password_validation import is_password_correct
-
-
-
-
-
-
-
+from source.validation import is_password_correct
 
 def add_new_password(stdscr: curses.window, mail: str, height: int, width: int, y: int, x: int) -> None:
     """

@@ -10,7 +10,7 @@ import hashlib
 import os
 import datetime
 from typing import Any
-from source.password_validation import is_password_correct
+from source.validation import is_password_correct
 
 def start_screen(stdscr: curses.window, height: int, width: int) -> str:
     """

@@ -3,14 +3,6 @@ This module is main.py
 """
 
 import curses
-import re
-import sys
-import json
-import hashlib
-import os
-import datetime
-from typing import Any
-from source.password_validation import is_password_correct
 
 def password_manager(stdscr: curses.window, height: int, width: int, mail: str) -> None:
     """

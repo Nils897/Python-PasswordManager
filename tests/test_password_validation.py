@@ -2,7 +2,7 @@
 import unittest
 import requests
 from unittest.mock import patch
-from source.password_validation import is_password_correct, is_password_pwned, request_api
+from source.validation import is_password_correct, is_password_pwned, request_api
 
 class TestPasswordValidation(unittest.TestCase):
 

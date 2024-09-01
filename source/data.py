@@ -1,3 +1,9 @@
+import curses
+import json
+import os
+import datetime
+from typing import Any
+
 def create_accounts_file() -> None:
     """
     Checks if 'data.json' exists in the current directory.
@@ -13,7 +19,7 @@ def create_accounts_file() -> None:
         }
         with open('./data.json', 'w') as file:
             json.dump(data, file, ensure_ascii = False, indent = 4)
-            
+
 def change_data(stdscr: curses.window, height: int, width: int, mail: str, name: str, url: str, notes: str, password: str, data_to_be_shown: str, data: dict) -> None:
     """
     Manages the process of updating account details via user input in a terminal interface.

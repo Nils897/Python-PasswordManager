@@ -1,5 +1,5 @@
 """
-This module provides a function which validates a password
+This module provides a function which validates a password or mail
 """
 from typing import Any
 import re
@@ -14,7 +14,6 @@ def is_mail_correct(mail: str) -> bool:
     """
     pattern = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
     return bool(pattern.match(mail))
-
 
 def is_password_correct(password: str) -> bool:
     """
