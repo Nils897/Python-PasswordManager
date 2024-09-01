@@ -13,10 +13,11 @@ import datetime
 from typing import Any
 from source.validation import is_password_correct
 from main import password_manager
-from source.data import change_data
-from source.password_manager_framework import choice_function, input_function
+
+
 
 def add_new_password(stdscr: curses.window, mail: str, height: int, width: int, y: int, x: int) -> None:
+    from source.password_manager_framework import choice_function, input_function
     """
     Allows the user to add a new password entry through a terminal interface.
 
@@ -134,6 +135,8 @@ def safe_new_password_data(new_data: dict, mail: str, name: str) -> None:
         json.dump(data, json_file, indent = 4)
 
 def show_password(stdscr: curses.window, data: dict, mail: str, data_to_be_shown: str, y: int, x: int, height: int, width: int) -> None:
+    from source.data import change_data
+    from source.password_manager_framework import choice_function, input_function
     """
     Displays detailed information about a specific password entry and provides options
     to show the password, copy it, modify it, or delete it.

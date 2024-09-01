@@ -3,11 +3,14 @@ This module is main.py
 """
 
 import curses
-from source.data import read_data_json, create_accounts_file
-from source.password_manager_framework import choice_function, input_function, start_screen
-from source.password import show_password, add_new_password
+
+
+
 
 def password_manager(stdscr: curses.window, height: int, width: int, mail: str) -> None:
+    from source.data import read_data_json, create_accounts_file
+    from source.password_manager_framework import choice_function, input_function, start_screen
+    from source.password import show_password, add_new_password
     """
     Manages the display and selection of password entries for a specific account.
 
@@ -69,10 +72,14 @@ def password_manager(stdscr: curses.window, height: int, width: int, mail: str) 
         add_new_password(stdscr, mail, height, width, y, x)
 
 def main(stdscr: curses.window) -> None:
+    from source.data import read_data_json, create_accounts_file
+    from source.password_manager_framework import choice_function, input_function, start_screen
+    from source.password import show_password, add_new_password
     """
     Main function in which screen options are declared, ...
     """
     #curses.resize_term(30, 50)
+    
     self_grey = 1
     curses.start_color()
     curses.init_color(self_grey, 400, 400, 400)

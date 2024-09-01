@@ -13,8 +13,7 @@ This module leverages the curses library for terminal screen management and user
 """
 import curses
 import sys
-from typing import Any
-from source.data import safe_register_data, read_data_json
+
 from source.validation import is_password_correct, is_mail_correct
 from source.password import hash_password
 
@@ -175,6 +174,7 @@ def input_function(stdscr: curses.window, input_y: int, input_x: int, is_passwor
     return user_input
 
 def register(stdscr: curses.window, height: int, width: int) -> str:
+    from source.data import safe_register_data, read_data_json
     """
     Handles the user registration process for a new account.
 
@@ -274,6 +274,7 @@ def register(stdscr: curses.window, height: int, width: int) -> str:
     return mail
 
 def signIn(stdscr: curses.window, height: int, width: int) -> str:
+    from source.data import safe_register_data, read_data_json
     """
     Handles the user sign-in process by verifying email and master password.
 
