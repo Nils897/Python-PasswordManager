@@ -26,7 +26,7 @@ def generate_password(criteria: dict) -> str:
     use_digits = criteria['use_digits']
     use_special = criteria['use_special']
     exclude_chars = criteria.get('exclude_chars', '')
-    enforce_pattern = criteria.get('enforce_pattern', '')    
+    enforce_pattern = criteria.get('enforce_pattern', '')
     characters = ''
     if use_uppercase:
         characters += string.ascii_uppercase
@@ -35,24 +35,24 @@ def generate_password(criteria: dict) -> str:
     if use_digits:
         characters += string.digits
     if use_special:
-        characters += string.punctuation    
+        characters += string.punctuation
     if exclude_chars:
-        characters = ''.join(c for c in characters if c not in exclude_chars)    
+        characters = ''.join(c for c in characters if c not in exclude_chars)
     if not characters:
-        raise ValueError("Zeichensatz ist leer. Bitte mindestens eine Zeichengruppe einschließen.")    
+        raise ValueError("Zeichensatz ist leer. Bitte mindestens eine Zeichengruppe einschließen.")
     if enforce_pattern:
         password = []
-        pattern_dict = {'U': string.ascii_uppercase, 'L': string.ascii_lowercase, 'D': string.digits, 'S': string.punctuation}        
+        pattern_dict = {'U': string.ascii_uppercase, 'L': string.ascii_lowercase, 'D': string.digits, 'S': string.punctuation}
         for char in enforce_pattern:
-            if char in pattern_dict:                
+            if char in pattern_dict:
                 valid_chars = [c for c in pattern_dict[char] if c not in exclude_chars]
                 if not valid_chars:
                     raise ValueError(f"Kein gültiges Zeichen für das Musterzeichen '{char}'.")
                 password.append(random.choice(valid_chars))
             else:
-                raise ValueError(f"Ungültiges Musterzeichen '{char}' in enforce_pattern.")        
+                raise ValueError(f"Ungültiges Musterzeichen '{char}' in enforce_pattern.")
         remaining_length = length - len(password)
-        password += random.choices(characters, k=remaining_length)        
+        password += random.choices(characters, k=remaining_length)
         random.shuffle(password)
         return ''.join(password)
     return ''.join(random.choice(characters) for _ in range(length))
