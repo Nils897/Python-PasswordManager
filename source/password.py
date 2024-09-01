@@ -13,7 +13,8 @@ import datetime
 from typing import Any
 from source.validation import is_password_correct
 from main import password_manager
-from source.password_manager_framework import choice_function
+from source.data import change_data
+from source.password_manager_framework import choice_function, input_function
 
 def add_new_password(stdscr: curses.window, mail: str, height: int, width: int, y: int, x: int) -> None:
     """
