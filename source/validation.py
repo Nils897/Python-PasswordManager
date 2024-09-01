@@ -32,26 +32,21 @@ def is_password_correct(password: str) -> bool:
     """
     is_password_secure = True
     if len(password) < 8:
-        print("Password too short")
         is_password_secure = False
     if not re.search(r'\d', password):
-        print("Password needs at least one digit")
         is_password_secure = False
     if not re.search(r'[A-Z]', password):
-        print("Password needs at least one uppercase letter")
         is_password_secure = False
     if not re.search(r'[a-z]', password):
-        print("Password needs at least one lowercase letter")
         is_password_secure = False
     if not re.search(r'[_!@#$%^&*(),.?":{}|<>-]', password):
-        print("Password needs at least one special character")
         is_password_secure = False
     if is_password_pwned(password):
-        print("Password is pwned")
         is_password_secure = False
     if not is_password_secure:
         return False
     return True
+
 def is_password_pwned(password: str) -> bool:
     """
     Checks if the given password has been compromised in a known data breach.
@@ -71,6 +66,7 @@ def is_password_pwned(password: str) -> bool:
         if returned_suffix == suffix_hashed_password:
             return True
     return False
+
 def request_api(prefix_hashed_password: str) -> Any:
     """
     Requests data from the 'Have I Been Pwned' API for passwords 
@@ -87,6 +83,3 @@ def request_api(prefix_hashed_password: str) -> Any:
     except requests.RequestException as e:
         print(f"Error contacting API: {e}")
         return None
-
-print(is_password_correct("Q2z!R7y%W4t"))
-print(is_password_correct("Password!23"))

@@ -6,7 +6,7 @@ from source.password_manager import password_manager, create_accounts_file, star
 
 def main(stdscr: curses.window) -> None:
     """
-    Main function in which screen options are declared, ...
+    Main function in which screen options are declared and the passwort manager function gets executed
     """
     #curses.resize_term(30, 50)
     self_grey = 1
