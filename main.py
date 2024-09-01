@@ -421,7 +421,8 @@ def add_new_password(stdscr: curses.window, mail: str, height: int, width: int, 
             go2 = False
             time_of_access = datetime.datetime.now()
             time_of_access_format = time_of_access.strftime("%d.%m.%Y %H:%M")
-            new_data= {
+            new_data: dict[str, dict[str, Any]] = {}
+            new_data = {
                 name: {
                     "name": name,
                     "password": password,
@@ -696,6 +697,7 @@ def safe_changed_data(mail: str, name: str, url: str, notes: str, password: str,
         old_password_list = data["accounts"][mail]["passwords"][old_name]["oldpasswordlist"]
         data["accounts"][mail]["passwords-list"].remove(old_name)
         data["accounts"][mail]["passwords-list"].append(name)
+        new_name: dict[str, dict[str, Any]] = {}
         new_name = {
             name: {
                 "name": name,
