@@ -7,7 +7,6 @@ Functions:
 - start_screen: Displays the initial start screen with options to sign in, register, or exit the application.
 - choice_function: Handles user navigation through menu options and selection based on keypresses.
 - register: Facilitates user registration by collecting and validating email and password inputs, and saving the new account to a JSON file.
-- read_data_json: Reads and returns the contents of the JSON file where user data is stored.
 - signIn: Manages the sign-in process by verifying the provided email and master password against stored data.
 
 This module leverages the curses library for terminal screen management and user input handling.
@@ -205,19 +204,6 @@ def register(stdscr: curses.window, height: int, width: int) -> str:
     return mail
 
 
-def read_data_json() -> Any:
-    """
-    Reads and returns the data from the JSON file.
-
-    Opens the 'data.json' file, loads its contents into a Python dictionary, 
-    and returns the dictionary.
-
-    Returns:
-        dict: The data loaded from 'data.json'.
-    """
-    with open('./data.json', 'r', encoding = 'utf-8') as json_file:
-        data = json.load(json_file)
-    return data
 
 def signIn(stdscr: curses.window, height: int, width: int) -> str:
     """

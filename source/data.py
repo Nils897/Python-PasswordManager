@@ -8,6 +8,7 @@ Functions:
 - change_data: Allows users to update account details via terminal input.
 - safe_changed_data: Saves updated account data to the JSON file.
 - safe_register_data: Registers a new account and stores it in the JSON file.
+- read_data_json: returns the data from the JSON file.
 """
 
 
@@ -227,3 +228,19 @@ def safe_register_data(mail: str, password: str) -> None:
     data["accounts"].update(new_data)
     with open('./data.json', 'w') as json_file:
         json.dump(data, json_file, indent = 4)
+
+
+
+def read_data_json() -> Any:
+    """
+    Reads and returns the data from the JSON file.
+
+    Opens the 'data.json' file, loads its contents into a Python dictionary, 
+    and returns the dictionary.
+
+    Returns:
+        dict: The data loaded from 'data.json'.
+    """
+    with open('./data.json', 'r', encoding = 'utf-8') as json_file:
+        data = json.load(json_file)
+    return data
