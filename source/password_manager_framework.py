@@ -1,13 +1,13 @@
 """
 This module provides the interface for the start screen and user authentication processes in a terminal-based application. 
-It includes functions to display the start screen, navigate the menu, handle user input for signing in, registering new accounts.
+It includes functions to display the start screen, navigate the menu, handle user input for sign_ing in, registering new accounts.
 
 Functions:
 
 - start_screen: Displays the initial start screen with options to sign in, register, or exit the application.
 - choice_function: Handles user navigation through menu options and selection based on keypresses.
 - register: Facilitates user registration by collecting and validating email and password inputs, and saving the new account to a JSON file.
-- signIn: Manages the sign-in process by verifying the provided email and master password against stored data.
+- sign_in: Manages the sign-in process by verifying the provided email and master password against stored data.
 
 This module leverages the curses library for terminal screen management and user input handling.
 """
@@ -21,9 +21,9 @@ def start_screen(stdscr: curses.window, height: int, width: int) -> str:
     """
     Displays the start screen of the application, allowing the user to either sign in, register a new account, or exit.
 
-    The function sets up the initial menu with options for signing in, registering a new account, or exiting the application.
+    The function sets up the initial menu with options for sign_ing in, registering a new account, or exiting the application.
     It handles user input to navigate between options and select one. Based on the selection, it either calls the
-    `signIn` function, the `register` function, or exits the program.
+    `sign_in` function, the `register` function, or exits the program.
 
     Args:
         stdscr (curses.window): The curses window object used for displaying text and capturing user input.
@@ -32,7 +32,7 @@ def start_screen(stdscr: curses.window, height: int, width: int) -> str:
 
     Returns:
         str: The email address of the user if they choose to sign in or register.
-              This will be returned from the `signIn` or `register` functions.
+              This will be returned from the `sign_in` or `register` functions.
               If the user chooses to exit, the function will terminate the program.
     """
     curses.curs_set(0)
@@ -45,6 +45,7 @@ def start_screen(stdscr: curses.window, height: int, width: int) -> str:
     x = width
     #exit_text(stdscr, height, width)
     go = True
+    mail = ""
     while go:
         stdscr.addstr(y, (x - len(text1)) // 2, text1, curses.color_pair(pair_number[0]) | curses.A_BOLD)
         stdscr.addstr(y + 5, (x - len(text2)) // 2, text2, curses.color_pair(pair_number[1]) | curses.A_BOLD)
@@ -52,7 +53,7 @@ def start_screen(stdscr: curses.window, height: int, width: int) -> str:
         stdscr.refresh()
         ky, pair_number, go = choice_function(stdscr, ky, pair_number, go)
     if ky == 0:
-        mail = signIn(stdscr, height, width)
+        mail = sign_in(stdscr, height, width)
     elif ky == 1:
         mail = register(stdscr, height, width)
         start_screen(stdscr, height, width)
@@ -101,11 +102,10 @@ def exit_text(stdscr: curses.window, height: int, width: int) -> None:
     """
     Prompts an exit text for the user
     """
-    pass
-    #stdscr.addstr(height - 1, 0, ' ' * width)
-    #stdscr.refresh()
-    #stdscr.addstr(height - 1, 2, "Drücke \"Esc\" zum beenden", curses.color_pair(2))
-    #stdscr.refresh()
+    stdscr.addstr(height - 1, 0, ' ' * width)
+    stdscr.refresh()
+    stdscr.addstr(height - 1, 2, "Drücke \"Esc\" zum beenden", curses.color_pair(2))
+    stdscr.refresh()
 
 def is_sure_to_exit_program(stdscr: curses.window) -> None:
     """
@@ -119,10 +119,10 @@ def is_sure_to_exit_program(stdscr: curses.window) -> None:
     stdscr.addstr(height - 1, (width - len(text)) // 2, text, curses.color_pair(2))
     stdscr.refresh()
     exit_input = stdscr.getch()
-    if exit_input == [10, 13]:
+    if exit_input == (10, 13):
         sys.exit(0)
     elif exit_input == 27:
-        exit_text(stdscr, width, height)
+        exit_text(stdscr, height, width)
 
 def input_function(stdscr: curses.window, input_y: int, input_x: int, is_password: bool) -> str:
     """
@@ -156,7 +156,7 @@ def input_function(stdscr: curses.window, input_y: int, input_x: int, is_passwor
                 input_x -= 1
                 stdscr.move(input_y, input_x)
                 stdscr.refresh()
-        elif inp == curses.KEY_UP or inp == curses.KEY_DOWN:
+        elif inp in (curses.KEY_UP, curses.KEY_DOWN):
             pass
         elif inp == 27:
             is_sure_to_exit_program(stdscr)
@@ -209,6 +209,9 @@ def register(stdscr: curses.window, height: int, width: int) -> str:
     password1_correct = False
     password2_correct = False
     exit_text(stdscr, height, width)
+    input_x = 0
+    input_y = 0
+    is_password = True
     while go2:
         while go:
             stdscr.addstr(y - 4, x - len(text2) - 8, text2, curses.color_pair(pair_number[0]) | curses.A_BOLD)
@@ -235,6 +238,7 @@ def register(stdscr: curses.window, height: int, width: int) -> str:
                 is_password = True
             curses.curs_set(1)
             user_input = input_function(stdscr, input_y, input_x, is_password)
+            password, password2 = ""
             curses.curs_set(0)
             if ky == 0:
                 mail = user_input
@@ -272,7 +276,7 @@ def register(stdscr: curses.window, height: int, width: int) -> str:
             safe_register_data(mail, password)
     return mail
 
-def signIn(stdscr: curses.window, height: int, width: int) -> str:
+def sign_in(stdscr: curses.window, height: int, width: int) -> str:
     """
     Handles the user sign-in process by verifying email and master password.
 
@@ -303,6 +307,9 @@ def signIn(stdscr: curses.window, height: int, width: int) -> str:
     stdscr.addstr(y - 8, x - len(text1), text1, curses.color_pair(2) | curses.A_BOLD)
     exit_text(stdscr, height, width)
     stdscr.refresh()
+    is_password = True
+    input_x = 0
+    input_y = 0
     while go2:
         while go:
             stdscr.addstr(y - 4, x - len(text2) - 8, text2, curses.color_pair(pair_number[0]) | curses.A_BOLD)
@@ -327,22 +334,15 @@ def signIn(stdscr: curses.window, height: int, width: int) -> str:
             curses.curs_set(0)
             if ky == 0:
                 mail = user_input
-                if mail in data["accounts"]["accounts-list"]:
-                    mail_correct = True
-                else:
-                    mail_correct = False
+                mail_correct = mail in data["accounts"]["accounts-list"]
             if ky == 1:
                 password = user_input
                 hashed_password = hash_password(password)
-                if hashed_password == data['accounts'][mail]['master-password']:
-                    password_correct = True
-                else:
-                    password_correct = False
+                password_correct = hashed_password == data['accounts'][mail]['master-password']
             if mail_correct and password_correct:
                 go2 = False
                 return mail
-            else:
-                go = True
-                stdscr.addstr(y + 6, x - 20, "E-Mail oder Passwort nicht korrekt", curses.color_pair(4))
+            go = True
+            stdscr.addstr(y + 6, x - 20, "E-Mail oder Passwort nicht korrekt", curses.color_pair(4))
             stdscr.refresh()
     return mail
