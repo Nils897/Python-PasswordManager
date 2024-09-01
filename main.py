@@ -3,6 +3,9 @@ This module is main.py
 """
 
 import curses
+from source.data import read_data_json, create_accounts_file
+from source.password_manager_framework import choice_function, input_function, start_screen
+from source.password import show_password, add_new_password
 
 def password_manager(stdscr: curses.window, height: int, width: int, mail: str) -> None:
     """
