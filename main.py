@@ -369,7 +369,7 @@ def password_manager(stdscr: curses.window, height: int, width: int, mail: str) 
         except KeyError:
             password_manager(stdscr, height, width, mail)
     else:
-        add_new_password(stdscr, data, mail, height, width, y, x)
+        add_new_password(stdscr, mail, height, width, y, x)
 
 def add_new_password(stdscr: curses.window, mail: str, height: int, width: int, y: int, x: int) -> None:
     """
@@ -400,6 +400,8 @@ def add_new_password(stdscr: curses.window, mail: str, height: int, width: int, 
     go, go2 = True, True
     ky = 0
     url, notes = "", ""
+    name: str = ""
+    password: str = ""
     name_available, password_available = False, False
     stdscr.addstr(y - 10, x - (len(text5) //2), text5, curses.color_pair(2) | curses.A_BOLD)
     stdscr.refresh()
@@ -668,7 +670,7 @@ def change_data(stdscr: curses.window, height: int, width: int, mail: str, name:
                     stdscr.refresh()
     stdscr.getch()
 
-def safe_changed_data(mail: str, name: str, url: str, notes: str, password: str, old_name: str, is_name_changed: bool) -> dict:
+def safe_changed_data(mail: str, name: str, url: str, notes: str, password: str, old_name: str, is_name_changed: bool) -> Any:
     """
     Updates account data in 'data.json' with new information for a given password entry.
     
