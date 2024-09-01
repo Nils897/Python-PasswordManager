@@ -14,8 +14,9 @@ This module leverages the curses library for terminal screen management and user
 import curses
 import sys
 from typing import Any
-from source.data import safe_register_data
-from source.validation import is_password_correct
+from source.data import safe_register_data, read_data_json
+from source.validation import is_password_correct, is_mail_correct
+from source.password import hash_password
 
 def start_screen(stdscr: curses.window, height: int, width: int) -> str:
     """
@@ -96,6 +97,33 @@ def choice_function(stdscr: curses.window, ky: int, pair_number: list, go: bool)
     #elif key == ord('q'):
         #break
     return ky, pair_number, go
+
+def exit_text(stdscr: curses.window, height: int, width: int) -> None:
+    """
+    Prompts an exit text for the user
+    """
+    pass
+    #stdscr.addstr(height - 1, 0, ' ' * width)
+    #stdscr.refresh()
+    #stdscr.addstr(height - 1, 2, "Drücke \"Esc\" zum beenden", curses.color_pair(2))
+    #stdscr.refresh()
+
+def is_sure_to_exit_program(stdscr: curses.window) -> None:
+    """
+    Displays an exit confirmation prompt to the user.
+    Exits the program if 'Enter' is pressed, or cancels if 'Esc' is pressed.
+    """
+    height, width = stdscr.getmaxyx()
+    text = "Sicher, dass Sie das Programm beenden wollen? \"Enter\":beenden | \"Esc\":abbrechen"
+    stdscr.addstr(height - 1, 2, ' ' * len("Drücke \"Esc\" zum beenden"))
+    stdscr.refresh()
+    stdscr.addstr(height - 1, (width - len(text)) // 2, text, curses.color_pair(2))
+    stdscr.refresh()
+    exit_input = stdscr.getch()
+    if exit_input == [10, 13]:
+        sys.exit(0)
+    elif exit_input == 27:
+        exit_text(stdscr, width, height)
 
 def input_function(stdscr: curses.window, input_y: int, input_x: int, is_password: bool) -> str:
     """
