@@ -2,16 +2,17 @@
 This module is main.py
 """
 
-import curses 
+import curses
 import re
 import sys
 import json
-import hashlib 
+import hashlib
 import os
 import datetime
+from typing import Any
 from source.password_validation import is_password_correct
 
-def start_screen(stdscr, height, width):
+def start_screen(stdscr: curses.window, height: int, width: int) -> str:
     """
     Displays the start screen of the application, allowing the user to either sign in, register a new account, or exit.
 
@@ -54,7 +55,7 @@ def start_screen(stdscr, height, width):
         sys.exit(0)
     return mail
 
-def choice_function(stdscr, ky, pair_number, go):
+def choice_function(stdscr: curses.window, ky: int, pair_number: list, go: bool) -> tuple:
     """
     Handles user input for navigation and selection in a menu.
 
@@ -91,7 +92,7 @@ def choice_function(stdscr, ky, pair_number, go):
         #break
     return ky, pair_number, go
 
-def register(stdscr, height, width):
+def register(stdscr: curses.window, height: int, width: int) -> str:
     """
     Handles the user registration process for a new account.
 
@@ -156,7 +157,7 @@ def register(stdscr, height, width):
             curses.curs_set(0)
             if ky == 0:
                 mail = user_input
-                if is_mail_correct(mail) == True:
+                if is_mail_correct(mail):
                     mail_correct = True
                     stdscr.addstr(y - 4, x - 6 + len(mail) + 2, '\u2713')
                     stdscr.addstr(y - 3, x - 6, ' ' * len("Eingabe nicht korrekt!"))
@@ -170,19 +171,19 @@ def register(stdscr, height, width):
             elif ky == 2:
                 password2 = user_input
                 password2_available = True
-            if password1_available == True:
+            if password1_available:
                 word = password
-                if False == is_password_correct(word):
+                if not is_password_correct(word):
                     stdscr.addstr(y + 1, x, "Passwort muss 8 Zeichen lang, Klein-, Großbuchstaben, Zahlen, Sonderzeichen beinhalten", curses.color_pair(3))
                 else:
                     password1_correct = True
             if password2_available:
                 word = password2
-                if is_password_correct(word) == False:
+                if not is_password_correct(word):
                     stdscr.addstr(y + 5, x, "Passwort muss 8 Zeichen lang, Klein-, Großbuchstaben, Zahlen, Sonderzeichen beinhalten", curses.color_pair(3))
                 else:
                     password2_correct = True
-            if mail_correct == True and password1_correct == True and password2_correct == True:
+            if mail_correct and password1_correct and password2_correct:
                 go2 = False
             else:
                 go = True
@@ -190,7 +191,7 @@ def register(stdscr, height, width):
             safe_register_data(mail, password)
     return mail
 
-def safe_register_data(mail, password):
+def safe_register_data(mail: str, password: str) -> None:
     """
     Registers a new account by adding it to the JSON data file.
 
@@ -220,7 +221,7 @@ def safe_register_data(mail, password):
     with open('./data.json', 'w') as json_file:
         json.dump(data, json_file, indent = 4)
 
-def read_data_json():
+def read_data_json() -> Any:
     """
     Reads and returns the data from the JSON file.
 
@@ -234,7 +235,7 @@ def read_data_json():
         data = json.load(json_file)
     return data
 
-def signIn(stdscr, height, width):
+def signIn(stdscr: curses.window, height: int, width: int) -> str:
     """
     Handles the user sign-in process by verifying email and master password.
 
@@ -300,7 +301,7 @@ def signIn(stdscr, height, width):
                     password_correct = True
                 else:
                     password_correct = False
-            if mail_correct == True and password_correct == True:
+            if mail_correct and password_correct:
                 go2 = False
                 return mail
             else:
@@ -309,7 +310,7 @@ def signIn(stdscr, height, width):
             stdscr.refresh()
     return mail
 
-def password_manager(stdscr, height, width, mail):
+def password_manager(stdscr: curses.window, height: int, width: int, mail: str) -> None:
     """
     Manages the display and selection of password entries for a specific account.
 
@@ -370,7 +371,7 @@ def password_manager(stdscr, height, width, mail):
     else:
         add_new_password(stdscr, data, mail, height, width, y, x)
 
-def add_new_password(stdscr, data, mail, height, width, y, x):
+def add_new_password(stdscr: curses.window, mail: str, height: int, width: int, y: int, x: int) -> None:
     """
     Allows the user to add a new password entry through a terminal interface.
 
@@ -414,7 +415,7 @@ def add_new_password(stdscr, data, mail, height, width, y, x):
             ky, pair_number, go = choice_function(stdscr, ky, pair_number, go)
         if ky == 5:
             password_manager(stdscr, height, width, mail)
-        elif ky == 4 and name_available == True and password_available == True:
+        elif ky == 4 and name_available and password_available:
             go2 = False
             time_of_access = datetime.datetime.now()
             time_of_access_format = time_of_access.strftime("%d.%m.%Y %H:%M")
@@ -465,7 +466,7 @@ def add_new_password(stdscr, data, mail, height, width, y, x):
                 if is_password_correct(password):
                     password_available = True
 
-def safe_new_password_data(new_data, mail, name):
+def safe_new_password_data(new_data: dict, mail: str, name: str) -> None:
     """
     Adds a new password entry to the account data and updates 'data.json'.
 
@@ -484,7 +485,7 @@ def safe_new_password_data(new_data, mail, name):
     with open('./data.json', 'w') as json_file:
         json.dump(data, json_file, indent = 4)
 
-def show_password(stdscr, data, mail, data_to_be_shown, y, x, height, width):
+def show_password(stdscr: curses.window, data: dict, mail: str, data_to_be_shown: str, y: int, x: int, height: int, width: int) -> None:
     """
     Displays detailed information about a specific password entry and provides options
     to show the password, copy it, modify it, or delete it.
@@ -544,7 +545,7 @@ def show_password(stdscr, data, mail, data_to_be_shown, y, x, height, width):
         go = True
     stdscr.getch()
 
-def delete_password(mail, data_to_be_shown):
+def delete_password(mail: str, data_to_be_shown: str) -> None:
     """
     Deletes a specified password entry from the JSON data file.
     
@@ -565,7 +566,7 @@ def delete_password(mail, data_to_be_shown):
         json.dump(data, json_file, indent = 4)
 
 
-def change_data(stdscr, height, width, mail, name, url, notes, password, data_to_be_shown, data):
+def change_data(stdscr: curses.window, height: int, width: int, mail: str, name: str, url: str, notes: str, password: str, data_to_be_shown: str, data: dict) -> None:
     """
     Manages the process of updating account details via user input in a terminal interface.
     
@@ -660,14 +661,14 @@ def change_data(stdscr, height, width, mail, name, url, notes, password, data_to
                 if new_password in data["accounts"][mail]["passwords"][name]["oldpasswordlist"]:
                     stdscr.addstr(y + 8, x - 30, "Passwort schon mal verwendet", curses.color_pair(3))
                     stdscr.refresh()
-                elif True == is_password_correct(new_password):
+                elif is_password_correct(new_password):
                     password = new_password
                 else:
                     stdscr.addstr(y + 8, x - 30, "Passwort unsicher", curses.color_pair(3))
-                    stdscr.refresh() 
+                    stdscr.refresh()
     stdscr.getch()
 
-def safe_changed_data(mail, name, url, notes, password, old_name, is_name_changed):
+def safe_changed_data(mail: str, name: str, url: str, notes: str, password: str, old_name: str, is_name_changed: bool) -> dict:
     """
     Updates account data in 'data.json' with new information for a given password entry.
     
@@ -726,7 +727,7 @@ def safe_changed_data(mail, name, url, notes, password, old_name, is_name_change
         json.dump(data, json_file, indent = 4)
     return data
 
-def exit_text(stdscr, height, width):
+def exit_text(stdscr: curses.window, height: int, width: int) -> None:
     """
     Prompts an exit text for the user
     """
@@ -736,7 +737,7 @@ def exit_text(stdscr, height, width):
     #stdscr.addstr(height - 1, 2, "Drücke \"Esc\" zum beenden", curses.color_pair(2))
     #stdscr.refresh()
 
-def hash_password(password):
+def hash_password(password: str) -> str:
     """
     Hashes the given password using SHA-256 and returns the hexadecimal digest.
     Args:password (str): The password to hash.
@@ -745,7 +746,7 @@ def hash_password(password):
     sha_signature = hashlib.sha256(password.encode()).hexdigest()
     return sha_signature
 
-def is_mail_correct(mail):
+def is_mail_correct(mail: str) -> bool:
     """
     Validates if the provided email address matches a standard email pattern.
     
@@ -754,7 +755,7 @@ def is_mail_correct(mail):
     pattern = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
     return bool(pattern.match(mail))
 
-def input_function(stdscr, input_y, input_x, is_password):
+def input_function(stdscr: curses.window, input_y: int, input_x: int, is_password: bool) -> str:
     """
     Captures user input at a specific terminal position. 
     Supports normal and password (masked) input. 
@@ -803,7 +804,7 @@ def input_function(stdscr, input_y, input_x, is_password):
                 input_x += 1
     return user_input
 
-def is_sure_to_exit_program(stdscr):
+def is_sure_to_exit_program(stdscr: curses.window) -> None:
     """
     Displays an exit confirmation prompt to the user.
     Exits the program if 'Enter' is pressed, or cancels if 'Esc' is pressed.
@@ -820,7 +821,7 @@ def is_sure_to_exit_program(stdscr):
     elif exit_input == 27:
         exit_text(stdscr, width, height)
 
-def create_accounts_file():
+def create_accounts_file() -> None:
     """
     Checks if 'data.json' exists in the current directory.
     If not, it creates the file with an initial empty accounts structure.
@@ -835,7 +836,7 @@ def create_accounts_file():
         with open('./data.json', 'w') as file:
             json.dump(data, file, ensure_ascii = False, indent = 4)
 
-def main(stdscr):
+def main(stdscr: curses.window) -> None:
     """
     Main function in which screen options are declared, ...
     """
