@@ -8,7 +8,6 @@ def main(stdscr: curses.window) -> None:
     """
     Main function in which screen options are declared and the passwort manager function gets executed
     """
-    #curses.resize_term(30, 50)
     self_grey = 1
     curses.start_color()
     curses.init_color(self_grey, 400, 400, 400)
@@ -22,5 +21,8 @@ def main(stdscr: curses.window) -> None:
     password_manager(stdscr, height, width, mail)
 
 if __name__ == "__main__":
-    curses.wrapper(main)
+    try:
+        curses.wrapper(main)
+    except:
+        print("Konsolenfenster zu klein -> größer ziehen.")
     
