@@ -238,7 +238,8 @@ def register(stdscr: curses.window, height: int, width: int) -> str:
                 is_password = True
             curses.curs_set(1)
             user_input = input_function(stdscr, input_y, input_x, is_password)
-            password, password2 = ""
+            password = ""
+            password2 = ""
             curses.curs_set(0)
             if ky == 0:
                 mail = user_input
